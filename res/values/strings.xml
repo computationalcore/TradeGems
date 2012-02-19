@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, OrbsActivity!</string>
+    <string name="app_name">Swap Gems</string>
+    
+    <string name="play_game">Play Swap Gems</string>
+    
+    <!-- Game Strings -->
+    <string name="score">Score: </string>
+    <string name="turns">Turns: </string>
+    
+    <!--  ScoreDialog Strings !-->
+    <string name="high_score">High Score</string>
+    <string name="share_score">Share Your Score With The World?</string>
+    <string name="player_name">Name: </string>
+    <string name="username">User Name</string>
+    <string name="confirm_button">Yes</string>
+	<string name="cancel_button">Yes</string>
+	
+	<!-- About Strings -->
+	<string name="view_about">About</string>
+    <string name="about_text">To play Swap Gems, select any two gems to trade place. If a row or a column of gems is all the same color, they are whisked away and your score is increased. See how many gems you can remove in 10 turns.</string>
+    <string name="about_text_title">About Swap Gems</string>
+	
+	<string name="view_highscores">View High Scores</string>  
+    
+</resources>
