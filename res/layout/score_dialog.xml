@@ -40,7 +40,7 @@
   		android:gravity="center">
 		<Button
 			android:id="@+id/confirmButton"
-			android:text="string/confirm_button"
+			android:text="@string/confirm_button"
 			android:textSize="24px"
 			android:textStyle="bold"
 			android:layout_width="fill_parent" 
@@ -48,7 +48,7 @@
 		/>
   		<Button
 			android:id="@+id/cancelButton"
-			android:text="string/cancel_button"
+			android:text="@string/cancel_button"
 			android:textSize="24px"
 			android:textStyle="bold"
 			android:layout_width="fill_parent" 
