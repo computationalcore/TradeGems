@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, OrbsActivity!</string>
-    <string name="app_name">Swap Gems</string>
+    <string name="app_name">Trade Gems</string>
     
-    <string name="play_game">Play Swap Gems</string>
+    <string name="luminia_logo">Luminia Logo</string>
+    
+    <string name="play_game">Play Trade Gems</string>
+    
+    <!-- Loading Screen -->
+    <string name="loading_text">Loading, please wait(…,&#8230;)</string>
+    <string name="progress_text">Progress: 0%</string>
     
     <!-- Game Strings -->
     <string name="score">Score: </string>
     <string name="turns">Turns: </string>
     
-    <!--  ScoreDialog Strings !-->
+    <string name="pause">Pause</string>
+    <string name="pause_title">Game Paused</string>
+    <string name="pause_image">Pause Image</string>
+    <string name="pause_text">Touch to Resume</string>
+    
+    <!--  ScoreDialog Strings -->
     <string name="high_score">High Score</string>
     <string name="share_score">Share Your Score With The World?</string>
     <string name="player_name">Name: </string>
     <string name="username">User Name</string>
     <string name="confirm_button">Yes</string>
-	<string name="cancel_button">Yes</string>
+	<string name="cancel_button">No</string>
 	
 	<!-- About Strings -->
 	<string name="view_about">About</string>

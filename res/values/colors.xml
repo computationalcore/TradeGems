@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="back_start_color">#7B9BEA</color>
+	<color name="background_strip1">#C6CCD4</color>
+	<color name="background_strip2">#CCD2D8</color>
+	<color name="back_center_color">#3768E0</color>
+	<color name="back_end_color">#255BDE</color>
+	<color name="white">#FFFFFF</color>
+	<color name="gray">#7F7E7F</color>
+	<color name="black">#000000</color>
+	<color name="green">#00FF00</color>
+	<color name="yellow">#FDD017</color>
+	<color name="red">#FF0000</color>
+</resources>

@@ -12,7 +12,7 @@
 		android:text="@string/share_score"
 		android:textColor="#FBB040"
 		android:textStyle="bold"
-		android:textSize="24px"
+		android:textSize="100dp"
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content"/>
 	<LinearLayout 
