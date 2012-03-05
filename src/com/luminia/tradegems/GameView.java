@@ -215,11 +215,13 @@ public class GameView extends ViewGroup implements OnClickListener {
 	        
 	        if (mGameTimer <= 10000 && !isLastSeconds) {
 	        	mSound.playLastSeconds();
+	        	mGameActivity.lastSecond(true);
 	        	isLastSeconds = true;
 	        }
 	        
 	        if (mGameTimer >10000 && isLastSeconds) {
 	        	mSound.stopLastSeconds();
+	        	mGameActivity.lastSecond(false);
 	        	isLastSeconds = false;
 	        }
 	    }

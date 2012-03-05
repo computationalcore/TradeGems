@@ -204,6 +204,16 @@ public class GameActivity extends Activity implements OnClickListener {
 		mTurns.setText("" + turns + "  ");
 	}
 	
+	public void lastSecond(Boolean state) {
+		
+		if (state) {
+			mTimer.setTextColor(R.color.red);
+		}
+		else{
+			mTimer.setTextColor(R.color.green);
+		}
+	}
+	
 	/**
 	 * This method update the UI Timer. 
 	 *   

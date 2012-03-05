@@ -69,8 +69,8 @@ public class Background extends LayerDrawable {
 	 */
 	private static PathShape createGridPath() {
 		float size = 1000;
-		float colOrRowSize = size / 5.0f;
-		float fivePercent = size * 0.05f;
+		float colOrRowSize = size / 6.0f;
+		float fivePercent = size * 0.06f;
 
 		float onePercent = size * 0.01f;
 
