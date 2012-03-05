@@ -39,6 +39,13 @@
 		<activity android:name=".HighScoreActivity" />
 		
 		<activity android:name=".AboutActivity" />		
+		
+		<activity android:name=".TopTenActivity"  android:label="Top Ten Scores!" />
+		
+		<activity android:name=".UsersOfGameActivity"  android:label="Top Scores For User of Game" />
+		
+		<activity android:name=".UsersLocationActivity"  android:label="Location of Best Players" />
+		
     </application>
     
 </manifest>

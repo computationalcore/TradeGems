@@ -42,25 +42,33 @@ public final class R {
     }
     public static final class id {
         public static final int aboutButton=0x7f08000b;
-        public static final int cancelButton=0x7f080013;
-        public static final int confirmButton=0x7f080012;
+        public static final int cancelButton=0x7f080016;
+        public static final int confirmButton=0x7f080015;
         public static final int countdown_timer=0x7f080005;
-        public static final int current_score=0x7f080010;
-        public static final int dialogRoot=0x7f08000f;
+        public static final int current_score=0x7f080013;
+        public static final int dialogRoot=0x7f080012;
+        public static final int doGet=0x7f08001b;
         public static final int gameView=0x7f080000;
+        public static final int gamenameTextEdit=0x7f08001a;
         public static final int highScoreButton=0x7f08000a;
-        public static final int layout_root=0x7f08000c;
+        public static final int layout_root=0x7f08000f;
+        public static final int mapview=0x7f080018;
         public static final int pause_button=0x7f080002;
-        public static final int pause_image=0x7f08000d;
-        public static final int pause_text=0x7f08000e;
+        public static final int pause_image=0x7f080010;
+        public static final int pause_text=0x7f080011;
         public static final int pb_progressbar=0x7f080006;
         public static final int playGameButton=0x7f080009;
-        public static final int playerName=0x7f080011;
+        public static final int playerName=0x7f080014;
         public static final int root=0x7f080001;
         public static final int score=0x7f080003;
+        public static final int tableLayout=0x7f080017;
         public static final int turns=0x7f080004;
         public static final int tv_loadingtext=0x7f080007;
         public static final int tv_progress=0x7f080008;
+        public static final int usernameTextEdit=0x7f080019;
+        public static final int usersOfGame=0x7f08000d;
+        public static final int viewLocation=0x7f08000e;
+        public static final int viewTopTen=0x7f08000c;
     }
     public static final class layout {
         public static final int about=0x7f030000;
@@ -72,6 +80,9 @@ public final class R {
         public static final int score=0x7f030006;
         public static final int score_dialog=0x7f030007;
         public static final int splash_screen=0x7f030008;
+        public static final int topten=0x7f030009;
+        public static final int user_location=0x7f03000a;
+        public static final int users_of_game=0x7f03000b;
     }
     public static final class raw {
         public static final int all_match=0x7f050000;

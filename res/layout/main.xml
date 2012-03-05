@@ -38,4 +38,32 @@
 	    android:textStyle="bold"
     />
     
+	<Button
+		android:id="@+id/viewTopTen"
+	    android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content"
+	    android:background="@drawable/nine_patch"
+	    android:textSize="24px"
+	    android:textStyle="bold"
+	    android:text="View Top Ten Scores"
+	/>
+	<Button
+		android:id="@+id/usersOfGame"
+		android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content"
+	    android:background="@drawable/nine_patch"
+	    android:textSize="24px"
+	    android:textStyle="bold"
+	    android:text="Views Users Of Game"
+	/>
+	<Button
+		android:id="@+id/viewLocation"
+		android:layout_width="wrap_content" 
+	    android:layout_height="wrap_content"
+	    android:background="@drawable/nine_patch"
+	    android:textSize="24px"
+	    android:textStyle="bold"
+	    android:text="View Location Of Scores"
+	/>
+    
 </LinearLayout>
