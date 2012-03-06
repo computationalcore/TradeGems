@@ -16,6 +16,7 @@ package com.luminia.tradegems;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -78,6 +79,9 @@ public class GameActivity extends Activity implements OnClickListener {
 
 		if (view == mPauseButton) {
 			mGame.pause();
+			
+			//to prevent user pause to see the game (and think)
+			mGame.setVisibility(View.INVISIBLE);
 			showDialog(PAUSE_DIALOG);
 			//mActivity.dialogClosed();
 		}
@@ -94,6 +98,8 @@ public class GameActivity extends Activity implements OnClickListener {
 
 	public void dialogClosed() {
 		//mGame.reset(this);
+		//Show the game board again
+		mGame.setVisibility(View.VISIBLE);
 		mGame.resume();
 	}
 	
@@ -207,10 +213,10 @@ public class GameActivity extends Activity implements OnClickListener {
 	public void lastSecond(Boolean state) {
 		
 		if (state) {
-			mTimer.setTextColor(R.color.red);
+			mTimer.setTextColor(Color.RED);
 		}
 		else{
-			mTimer.setTextColor(R.color.green);
+			mTimer.setTextColor(Color.GREEN);
 		}
 	}
 	

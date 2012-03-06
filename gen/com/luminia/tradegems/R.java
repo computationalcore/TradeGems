@@ -30,15 +30,17 @@ public final class R {
     public static final class drawable {
         public static final int blue_gem=0x7f020000;
         public static final int dialog_graphic=0x7f020001;
-        public static final int game_background=0x7f020002;
-        public static final int green_gem=0x7f020003;
-        public static final int ic_laucher=0x7f020004;
-        public static final int loading_screen_background=0x7f020005;
-        public static final int nine_patch=0x7f020006;
-        public static final int pause_button=0x7f020007;
-        public static final int red_gem=0x7f020008;
-        public static final int splashscreen=0x7f020009;
-        public static final int tile=0x7f02000a;
+        public static final int diamond=0x7f020002;
+        public static final int game_background=0x7f020003;
+        public static final int green_gem=0x7f020004;
+        public static final int ic_laucher=0x7f020005;
+        public static final int loading_screen_background=0x7f020006;
+        public static final int main_background=0x7f020007;
+        public static final int nine_patch=0x7f020008;
+        public static final int pause_button=0x7f020009;
+        public static final int red_gem=0x7f02000a;
+        public static final int splashscreen=0x7f02000b;
+        public static final int tile=0x7f02000c;
     }
     public static final class id {
         public static final int aboutButton=0x7f08000b;

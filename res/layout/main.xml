@@ -5,7 +5,7 @@
     android:layout_height="fill_parent"
     android:gravity="center"
     android:padding="20px"
-    android:background="@drawable/game_background"
+    android:background="@drawable/main_background"
     >
     
 	<Button

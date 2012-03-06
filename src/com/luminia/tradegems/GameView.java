@@ -61,7 +61,10 @@ public class GameView extends ViewGroup implements OnClickListener {
 	private Random mRandom = new Random();
 
 	private GemView mSelectedGemView = null;
-	private boolean mAcceptInput = true;
+	
+	//The value of this variable will never be cached thread-locally: all reads and writes will go straight to "main memory";
+	//Access to the variable acts as though it is enclosed in a synchronized block, synchronized on itself.
+	private volatile boolean mAcceptInput = true;
 
 	//Current score (the ideal was use a unsigned long, but java do not
 	//have this, so long is good 2^63)
@@ -113,7 +116,9 @@ public class GameView extends ViewGroup implements OnClickListener {
 		
 		mSound = new GameSound(this.getContext());
 		
-		setBackgroundDrawable(new Background());
+		Background background = new Background();
+		background.setAlpha(65);
+		setBackgroundDrawable(background);
 
 		mGemIds[0] = R.drawable.red_gem;
 		mGemIds[1] = R.drawable.green_gem;
