@@ -132,15 +132,6 @@ public class GameView extends ViewGroup implements OnClickListener {
 	}
 	
 	public void pause() {
-		//Pause only when all animations are done (when input are available)
-		while (!mAcceptInput) {
-			try {
-				Thread.sleep(200);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		mGameCountDownTimer.cancel();
 		mSound.pauseGameMusic();
 	}
@@ -476,7 +467,7 @@ public class GameView extends ViewGroup implements OnClickListener {
 				ScaleAnimation scaleDown = new ScaleAnimation(1.0f, 0.5f, 1.0f,
 						0.5f, Animation.RELATIVE_TO_SELF, 0.5f,
 						Animation.RELATIVE_TO_SELF, 0.5f);
-				scaleDown.setDuration(500);
+				scaleDown.setDuration(250);
 				scaleDown.setFillAfter(true);
 				
 				
@@ -484,8 +475,8 @@ public class GameView extends ViewGroup implements OnClickListener {
 				mSound.playAllMatch();
 				
 				TranslateAnimation trans = new TranslateAnimation(0, size, 0, 0);
-				trans.setDuration(500);
-				trans.setStartOffset(500);
+				trans.setDuration(250);
+				trans.setStartOffset(250);
 				trans.setFillAfter(true);
 
 				AnimationSet set = new AnimationSet(false);
@@ -511,15 +502,15 @@ public class GameView extends ViewGroup implements OnClickListener {
 				ScaleAnimation scaleDown = new ScaleAnimation(1.0f, 0.5f, 1.0f,
 						0.5f, Animation.RELATIVE_TO_SELF, 0.5f,
 						Animation.RELATIVE_TO_SELF, 0.5f);
-				scaleDown.setDuration(500);
+				scaleDown.setDuration(250);
 				scaleDown.setFillAfter(true);
 
 				//Play the swap sound
 				mSound.playAllMatch();
 				
 				TranslateAnimation trans = new TranslateAnimation(0, 0, 0, size);
-				trans.setDuration(500);
-				trans.setStartOffset(500);
+				trans.setDuration(250);
+				trans.setStartOffset(250);
 				trans.setFillAfter(true);
 
 				AnimationSet set = new AnimationSet(false);
@@ -555,8 +546,15 @@ public class GameView extends ViewGroup implements OnClickListener {
 		//General method to update Scores
 		mScore += allGems.size() * 5;
 		
-		//time bonus (in milliseconds)
-		int timeBonus = allGems.size() * 1000;
+		long timeBonus;
+		if (mTurns/20 < 5 ){
+			//time bonus (in milliseconds)
+			timeBonus = (allGems.size() - mTurns/20) * 1000;
+		}
+		else {
+			timeBonus = 1000;
+		}
+		
 		mGameCountDownTimer.cancel();
 		mGameCountDownTimer = new GameCountDownTimer((mGameTimer+timeBonus), UPDATE_UI_TIMER);
 		mGameCountDownTimer.start();
@@ -605,6 +603,7 @@ public class GameView extends ViewGroup implements OnClickListener {
 			mGemType = gemType;
 			
 			Drawable image = getResources().getDrawable(mGemIds[mGemType]);
+			image.setAlpha(200);
 			setImageDrawable(image);
 			setClickable(true);
 			setOnClickListener(GameView.this);
