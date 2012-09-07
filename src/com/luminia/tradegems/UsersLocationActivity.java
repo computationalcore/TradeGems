@@ -48,6 +48,8 @@ public class UsersLocationActivity extends MapActivity {
 	}
 
 	private class GetTopTen extends AsyncTask<Integer, Integer, JSONArray> {
+		private static final String TAG = "UsersLocationActivity";
+
 		@Override
 		protected JSONArray doInBackground(Integer... counts) {
 			try {
@@ -66,12 +68,12 @@ public class UsersLocationActivity extends MapActivity {
 					HttpEntity entity = response.getEntity();
 					String json = EntityUtils.toString(entity);
 					return new JSONArray(json);
-				} else {
+				} else if(statusCode == 500){
 					String reason = response.getStatusLine().getReasonPhrase();
-					throw new RuntimeException("Trouble getting scores(code="
-							+ statusCode + "):" + reason);
+					Log.e(TAG,"Server Error 500");
+					Log.e(TAG,"Reason: "+reason);
 				}
-
+				return null;
 			} catch (Exception e) {
 				Log.w("TopTenActivity", e);
 				throw new RuntimeException(e);
@@ -79,6 +81,7 @@ public class UsersLocationActivity extends MapActivity {
 		}
 
 		protected void onPostExecute(final JSONArray result) {
+			if(result == null) return;
 			runOnUiThread(new Runnable() {
 				@Override
 				public void run() {

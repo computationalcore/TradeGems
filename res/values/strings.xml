@@ -25,6 +25,7 @@
     <string name="share_score">Share Your Score With The World?</string>
     <string name="player_name">Name: </string>
     <string name="username">User Name</string>
+    <string name="submit_button">Submit</string>
     <string name="confirm_button">Yes</string>
 	<string name="cancel_button">No</string>
 	

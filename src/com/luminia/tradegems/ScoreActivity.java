@@ -20,6 +20,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -38,6 +39,7 @@ public class ScoreActivity extends Activity implements OnClickListener {
 	private TextView mCurrentScore;
 	
 	public final static String SERVICE_URL = "http://trade-gems.appspot.com/add_high_score?highscore=";
+	private static final String TAG = "ScoreActivity";
 	
 	private EditText mPlayerName;
 	private Button mConfirm;
@@ -85,6 +87,7 @@ public class ScoreActivity extends Activity implements OnClickListener {
 		if (view == mConfirm) {
 			new ReportScore().execute(newScore);
 			//mActivity.dialogClosed();
+			finish();
 		} else {
 			//mActivity.dialogClosed();
 		}
@@ -121,7 +124,7 @@ public class ScoreActivity extends Activity implements OnClickListener {
 		HighScore score = new HighScore();
 		score.setUsername(mPlayerName.getEditableText().toString());
 		score.setDate(System.currentTimeMillis());
-		score.setScore(Long.parseLong(mCurrentScore.toString()));
+		score.setScore(Long.parseLong(mCurrentScore.getText().toString()));
 
 		LocationManager locationManager = (LocationManager) getBaseContext().getSystemService(Context.LOCATION_SERVICE);
 		List<String> providers = locationManager.getProviders(true);
@@ -164,7 +167,10 @@ public class ScoreActivity extends Activity implements OnClickListener {
 				if (statusCode == 200) {
 					HttpEntity entity = response.getEntity();
 					String json = EntityUtils.toString(entity);
-					return new HighScore(new JSONObject(json));
+					if(json.length() > 0)
+						return new HighScore(new JSONObject(json));
+					else
+						return null;
 				} else {
 					String reason = response.getStatusLine().getReasonPhrase();
 					throw new RuntimeException("Trouble adding score(code="

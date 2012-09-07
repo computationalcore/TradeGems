@@ -16,7 +16,7 @@ public class GameSound{
 	public static final int LAST_SECONDS = 3;
 	public static final int END = 4;
 	
-	private static MediaPlayer music;
+	private static MediaPlayer mMusicPlayer;
 	
 	private GamePreferences mGamePreferences;
 	private boolean mSound;
@@ -40,8 +40,8 @@ public class GameSound{
 		
 	    // the music that is played at the game 
 	    // loop it when ended
-	    music = MediaPlayer.create(context, R.raw.game_music);
-    	music.setLooping(true);
+	    mMusicPlayer = MediaPlayer.create(context, R.raw.game_music);
+    	mMusicPlayer.setLooping(true);
 	}
 	
 	private void init() {
@@ -96,32 +96,32 @@ public class GameSound{
 	
 	public void playGameMusic() {
 		if (!mSound) return;
-	    if (!music.isPlaying()) {
+	    if (!mMusicPlayer.isPlaying()) {
 	    	//the game music have 70% of the current volume
 		    float volume = getVolume() * 0.7f;
-	    	music.seekTo(0);
-	    	music.setVolume(volume, volume);
-	    	music.start();
+	    	mMusicPlayer.seekTo(0);
+	    	mMusicPlayer.setVolume(volume, volume);
+	    	mMusicPlayer.start();
 	    }
 	}
 	
 	public void stopGameMusic(){
 		if (!mSound) return;
-		music.stop();
+		mMusicPlayer.stop();
 	}
 	
 	public void pauseGameMusic() {
-		music.pause();
+		mMusicPlayer.pause();
 	}
 	
 	public void resumeGameMusic() {
 		if (!mSound) return;
-	    if (!music.isPlaying()) {
+	    if (!mMusicPlayer.isPlaying()) {
 	    	//the game music have 70% of the current volume
 		    float volume = getVolume() * 0.7f;
-	    	music.seekTo(music.getCurrentPosition());
-	    	music.setVolume(volume, volume);
-	    	music.start();
+	    	mMusicPlayer.seekTo(mMusicPlayer.getCurrentPosition());
+	    	mMusicPlayer.setVolume(volume, volume);
+	    	mMusicPlayer.start();
 	    } 
 	}
 	
@@ -129,7 +129,7 @@ public class GameSound{
 		if (!mSound) return;
 		playSound(LAST_SECONDS, -1);
 		float volume = getVolume() * 0.3f;
-    	music.setVolume(volume, volume);
+    	mMusicPlayer.setVolume(volume, volume);
 	}
 	
 	public void stopLastSeconds(){
@@ -140,7 +140,7 @@ public class GameSound{
 	public void playAllMatch() {
 		if (!mSound) return;
 		float volume = getVolume() * 0.7f;
-    	music.setVolume(volume, volume);
+    	mMusicPlayer.setVolume(volume, volume);
 	    playSound(ALL_MATCH, 0);
 	}
 	
@@ -156,8 +156,8 @@ public class GameSound{
 	
 	public void release() {
 	    mSoundPool.release();
-	    music.stop();
-	    music.release();
+	    mMusicPlayer.stop();
+	    mMusicPlayer.release();
 	}
 
 }
