@@ -1,20 +1,34 @@
 package com.luminia.tradegems;
 
-import android.app.Activity;
+import java.util.regex.Pattern;
+
+import com.luminia.tradegems.database.GameAccount;
+import com.luminia.tradegems.database.MyDBAdapter;
+import com.luminia.tradegems.widgets.SelectAccountDialog;
+
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class MainActivity extends Activity implements OnClickListener{
+public class MainActivity extends FragmentActivity implements OnClickListener{
 	
 	public final static String SERVICE_URL = "http://trade-gems.appspot.com/";
 
+	private static final String TAG = "MainActivity";
+
+	private MyDBAdapter dbAdapter;
 	private Button playGameButton;
 	private Button highScoreButton;
 	private Button aboutButton;
-	
 	private Button topTenButton;
 	private Button usersOfGameButton;
 	private Button locationButton;
@@ -41,6 +55,35 @@ public class MainActivity extends Activity implements OnClickListener{
 		topTenButton.setOnClickListener(this);
 		usersOfGameButton.setOnClickListener(this);
 		locationButton.setOnClickListener(this);
+		
+		dbAdapter = MyDBAdapter.getInstance(this);
+		checkAccounts();
+    }
+    
+    private void checkAccounts(){
+    	GameAccount gameAccount = dbAdapter.getDefaultAccount();
+    	if(gameAccount == null){
+    		Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
+    		Account[] accounts = AccountManager.get(this).getAccounts();
+    		// If there is more than one account in the device, we need to ask
+    		// the user to select one
+    		if(accounts.length > 1){
+        		for (Account account : accounts) {
+        		    if (emailPattern.matcher(account.name).matches()) {
+        		        String possibleEmail = account.name;
+        		        Log.d(TAG,"Possible email: "+possibleEmail);
+        		    }
+        		}
+    			Bundle bundle = new Bundle();
+    			bundle.putParcelableArray("accounts",accounts);
+    			showAccountSelectionDialog(bundle);
+    		}else if(accounts.length == 1){
+    			
+    		}else{
+    			// TODO: No account detected, what to do?
+    			Log.w(TAG,"No account detected in device");
+    		}
+    	}
     }
     
     @Override
@@ -67,4 +110,16 @@ public class MainActivity extends Activity implements OnClickListener{
 		
 		//unknown button.
 	}
+    
+    private void showAccountSelectionDialog(Bundle bundle){
+		SelectAccountDialog selectAccountDialog = SelectAccountDialog.newInstance(bundle);
+    	Fragment prev = this.getSupportFragmentManager().findFragmentByTag("dialog");
+
+    	// Removing any currently shown dialog
+    	FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
+    	if (prev != null) {
+            ft.remove(prev);
+        }
+    	selectAccountDialog.show(getSupportFragmentManager(), "accounts-tag");
+    }
 }

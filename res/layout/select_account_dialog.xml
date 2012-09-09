@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <TextView android:id="@+id/SelectAccountDialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:text="@string/select_account_dialog_title"
+        android:textSize="@dimen/title_size"
+        android:gravity="center"/>
+    <ListView android:id="@+id/AccountList" 
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:orientation="vertical">
+    </ListView>
+    <TextView android:id="@+id/Explanation"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:text="@string/select_account_explanation"
+         android:padding="@dimen/explanation_text_padding">
+     </TextView>
+    
+</LinearLayout>

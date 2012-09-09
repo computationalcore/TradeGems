@@ -36,4 +36,8 @@
 	
 	<string name="view_highscores">View High Scores</string>  
     
+	<!-- Select Account dialog strings -->
+	<string name="select_account_dialog_title">Please select an account</string>
+	<string name="select_account">Select</string>
+	<string name="select_account_explanation">In order to provide a global Geo-Ranking we need to know which account to use to identify you as a player. If you choose to play anonymously you will not be able to post your highest scores on-line</string>
 </resources>

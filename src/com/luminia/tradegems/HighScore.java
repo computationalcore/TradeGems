@@ -22,7 +22,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class HighScore {
+import com.luminia.tradegems.database.Score;
+
+public class HighScore extends Score {
 
 	private Long key;
 	private String username;
@@ -87,14 +89,6 @@ public class HighScore {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public Long getScore() {
-		return score;
-	}
-
-	public void setScore(Long score) {
-		this.score = score;
 	}
 
 	public String getGameName() {

@@ -16,11 +16,16 @@ package com.luminia.tradegems;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.regex.Pattern;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -48,6 +53,8 @@ public class GameView extends ViewGroup implements OnClickListener {
 	
 	//Time of the update CountDownTimer from the UI (in milliseconds)
 	private static final int UPDATE_UI_TIMER = 100;
+
+	private static final String TAG = "GameView";
 	
 	//Array that stores the IDs of three different gem images 
 	//(they are set in the init() method
@@ -78,7 +85,7 @@ public class GameView extends ViewGroup implements OnClickListener {
 	//Start with 1 min 
 	//TODO: Set this back to 60 seconds. 1000 miliseconds is just for debug
 	// Nelson R. Perez
-	private long mGameTimer = 60000;
+	private long mGameTimer = 1000;
 
 	//CountDown Timer object (the class is defined here)
 	private GameCountDownTimer mGameCountDownTimer;
@@ -90,12 +97,12 @@ public class GameView extends ViewGroup implements OnClickListener {
 	
 	private volatile Boolean isLastSeconds = false;
 	
-	
 	/**
 	 * This constructor is called when the View is instantiated from XML (Required)
 	 */
 	public GameView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		Log.i(TAG,"GameView");
 		init();
 	}
 
@@ -104,6 +111,7 @@ public class GameView extends ViewGroup implements OnClickListener {
 	 */
 	public GameView(Context context) {
 		super(context);
+		Log.i(TAG,"GameView");
 		init();
 	}
 
@@ -113,7 +121,7 @@ public class GameView extends ViewGroup implements OnClickListener {
 	 * Called inside the class constructor.  
 	 */
 	private void init() {
-		
+		Log.d(TAG,"init");
 		mSound = new GameSound(this.getContext());
 		
 		Background background = new Background();
