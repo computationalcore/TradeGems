@@ -12,6 +12,8 @@
     <string name="progress_text">Progress: 0%</string>
     
     <!-- Game Strings -->
+    <string name="record_score_congrats">Record score!</string>
+    <string name="record_score">Record score: </string>
     <string name="score">Score: </string>
     <string name="turns">Turns: </string>
     

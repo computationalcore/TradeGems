@@ -153,8 +153,7 @@ public class MyDBAdapter {
 		try{
 			cursor = mydb.rawQuery(sql,null);
 			if(cursor != null && cursor.moveToFirst()){
-				score = new Score();
-				score.setScore(new Long(cursor.getLong(0)));
+				score = new Score(new Long(cursor.getLong(0)));
 			}
 		}catch(SQLException e){
 			Log.e(TAG,"SQLException caught. Msg: "+e.getMessage());
@@ -163,5 +162,25 @@ public class MyDBAdapter {
 			mydb.endTransaction();
 		}
 		return score;
+	}
+	
+	/**
+	 * Method that sets the score passes as argument into the database for the 
+	 * current default user.
+	 * @param score The score to be entered into the database.
+	 */
+	public void addScore(Score currentScore){
+		if(!this.isOpen()){
+			this.open();
+		}
+		ContentValues contentValues = new ContentValues();
+		contentValues.put(COL_EMAIL, currentScore.getAccountName());
+		contentValues.put(COL_SCORE,currentScore.getScore().longValue());
+		mydb.beginTransaction();
+		try{
+			mydb.insertOrThrow(TABLE_SCORES, null, contentValues);
+		}catch(SQLException e){
+			Log.e(TAG,"SQLException caught!. Msg: "+e.getMessage());
+		}
 	}
 }

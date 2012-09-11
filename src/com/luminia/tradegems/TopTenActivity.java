@@ -107,7 +107,7 @@ public class TopTenActivity extends Activity {
 					LayoutParams.FILL_PARENT));
 
 			TextView userView = new TextView(this);
-			userView.setText(highscore.getUsername());
+			userView.setText(highscore.getAccountName());
 			userView.setTextSize(16);
 			userView.setPadding(10, 10, 100, 2);
 			row.addView(userView);

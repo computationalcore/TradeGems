@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="large_text_size">55sp</dimen>
+    <dimen name="large_text_size">50sp</dimen>
 	<dimen name="medium_text_size">18sp</dimen>
-	
+	<dimen name="small_text_size">15sp</dimen>
+		
 	<!-- Select account dialog dimensions -->
 	<dimen name="title_size">26sp</dimen>
 	<dimen name="standard_text_padding">10dp</dimen>

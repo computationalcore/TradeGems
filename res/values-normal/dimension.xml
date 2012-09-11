@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dimensions for the normal bucket -->
+<resources>
+    <dimen name="large_text_size">45sp</dimen>
+	<dimen name="medium_text_size">15sp</dimen>
+</resources>

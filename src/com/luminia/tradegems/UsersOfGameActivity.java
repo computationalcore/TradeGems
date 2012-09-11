@@ -129,7 +129,7 @@ public class UsersOfGameActivity extends Activity implements OnClickListener {
 					LayoutParams.FILL_PARENT));
 
 			TextView userView = new TextView(this);
-			userView.setText(highscore.getUsername());
+			userView.setText(highscore.getAccountName());
 			userView.setTextSize(14);
 			userView.setPadding(10, 2, 100, 2);
 			row.addView(userView);

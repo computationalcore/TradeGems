@@ -104,7 +104,7 @@ public class UsersLocationActivity extends MapActivity {
 		for (int i = 0; i < result.length(); i++) {
 			HighScore highscore = new HighScore(result.getJSONObject(i));
 
-			String username = highscore.getUsername();
+			String username = highscore.getAccountName();
 			String score = "" + highscore.getScore();
 			int latitude = (int) highscore.getLatitude().doubleValue() * 1000000;
 			int longitude = (int) highscore.getLongitude().doubleValue() * 1000000;

@@ -27,7 +27,6 @@ import com.luminia.tradegems.database.Score;
 public class HighScore extends Score {
 
 	private Long key;
-	private String username;
 	private Long score;
 	private String gameName;
 	private Double longitude;
@@ -43,7 +42,7 @@ public class HighScore extends Score {
 			key = jsonObject.getLong("key");
 		}
 		if (jsonObject.has("username")) {
-			username = jsonObject.getString("username");
+			accountname = jsonObject.getString("username");
 		}
 		if (jsonObject.has("score")) {
 			score = jsonObject.getLong("score");
@@ -65,7 +64,7 @@ public class HighScore extends Score {
 	public JSONObject toJSONObject() throws JSONException {
 		JSONObject result = new JSONObject();
 		result.put("key", key);
-		result.put("username", username);
+		result.put("accountname", accountname);
 		result.put("score", score);
 		result.put("gameName", gameName);
 		result.put("longitude", longitude);
@@ -81,14 +80,6 @@ public class HighScore extends Score {
 
 	public void setKey(Long key) {
 		this.key = key;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	public String getGameName() {
@@ -128,7 +119,7 @@ public class HighScore extends Score {
 			JSONArray result = new JSONArray();
 			for (int i = 0; i < 10; i++) {
 				HighScore highScore = new HighScore();
-				highScore.setUsername("No Score");
+				highScore.setAccountName("No Score");
 				highScore.setScore((long) i);
 				result.put(highScore.toJSONObject());
 			}

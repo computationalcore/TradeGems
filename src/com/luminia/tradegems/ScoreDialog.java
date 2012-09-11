@@ -128,7 +128,7 @@ public class ScoreDialog extends Dialog implements OnClickListener {
 
 			editor.putString(HighScoreView.PREF_HIGH_SCORE,
 					updatedScores.toString());
-			editor.putString(PREF_USER_NAME, newScore.getUsername());
+			editor.putString(PREF_USER_NAME, newScore.getAccountName());
 
 			editor.commit();
 
@@ -139,7 +139,7 @@ public class ScoreDialog extends Dialog implements OnClickListener {
 
 	private HighScore makeHighScore() {
 		HighScore score = new HighScore();
-		score.setUsername(mPlayerName.getEditableText().toString());
+		score.setAccountName(mPlayerName.getEditableText().toString());
 		score.setDate(System.currentTimeMillis());
 		score.setScore(mActivity.getScore());
 

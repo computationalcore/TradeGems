@@ -85,7 +85,7 @@ public class GameView extends ViewGroup implements OnClickListener {
 	//Start with 1 min 
 	//TODO: Set this back to 60 seconds. 1000 miliseconds is just for debug
 	// Nelson R. Perez
-	private long mGameTimer = 1000;
+	private long mGameTimer = 20000;
 
 	//CountDown Timer object (the class is defined here)
 	private GameCountDownTimer mGameCountDownTimer;

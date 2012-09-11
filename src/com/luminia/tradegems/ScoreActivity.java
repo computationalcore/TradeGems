@@ -13,6 +13,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.luminia.tradegems.database.MyDBAdapter;
+import com.luminia.tradegems.database.Score;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,23 +46,24 @@ public class ScoreActivity extends Activity implements OnClickListener {
 	
 	private EditText mPlayerName;
 	private Button mConfirm;
-	private Button mCancel;	
+	private Long mScore;
+	private MyDBAdapter mDBAdapter;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.score);
-		
-		mCurrentScore = (TextView) findViewById(R.id.current_score);
+//		setContentView(R.layout.score);
+
 		Intent intent = getIntent();
 		String score = intent.getStringExtra("score");
+		mScore = new Long(score);
+		checkScore(new Score(mScore));
+		
+		mCurrentScore = (TextView) findViewById(R.id.current_score);
 		mCurrentScore.setText(score);
+
 		//mSound = new GameSound(getContext());
 		//mSound.playEnd();
-		
-		mPlayerName = (EditText) findViewById(R.id.playerName);
-		mConfirm = (Button) findViewById(R.id.confirmButton);
-		mCancel = (Button) findViewById(R.id.confirmButton);
 
 		//Get user previous data, or use a default value if it is empty
 		//and fill the playerName EditText field
@@ -68,24 +72,34 @@ public class ScoreActivity extends Activity implements OnClickListener {
 		//String username = settings.getString(PREF_USER_NAME, mActivity.getString(R.string.username) );
 		//mPlayerName.setText(username);
 
-		mConfirm.setOnClickListener(this);
-		mCancel.setOnClickListener(this);
-
-		LinearLayout rootLayout = (LinearLayout) findViewById(R.id.dialogRoot);
-
 		//BitmapDrawable bitmapDrawable = (BitmapDrawable) mActivity.getResources().getDrawable(R.drawable.dialog_graphic);
-
-		
-		
+	}
+	
+	private void checkScore(Score currentScore){
+		this.mDBAdapter = MyDBAdapter.getInstance(this);
+		Score prevScore = mDBAdapter.getHighestScore(mDBAdapter.getDefaultAccount());
+		Log.i(TAG,"prevScore: "+prevScore.getScore().longValue()+", currentScore: "+currentScore.getScore().longValue());
+		if(currentScore.getScore() > prevScore.getScore() 
+				&& currentScore.getScore() > 0){
+			this.setContentView(R.layout.highest_score);
+			Log.d(TAG,"Setting record score!");
+			mConfirm = (Button) findViewById(R.id.confirmButton);
+			mConfirm.setOnClickListener(this);
+		}else{
+			Log.d(TAG,"Setting regular score!");
+			this.setContentView(R.layout.regular_score);
+		}
 	}
 	
 	@Override
 	public void onClick(View view) {
 		HighScore newScore = makeHighScore();
-		updateLocalHighScore(newScore);
+//		updateLocalHighScore(newScore);
 
 		if (view == mConfirm) {
 			new ReportScore().execute(newScore);
+			this.mDBAdapter = MyDBAdapter.getInstance(this);
+			mDBAdapter.addScore(newScore);
 			//mActivity.dialogClosed();
 			finish();
 		} else {
@@ -111,7 +125,7 @@ public class ScoreActivity extends Activity implements OnClickListener {
 
 			editor.putString(HighScoreView.PREF_HIGH_SCORE,
 					updatedScores.toString());
-			editor.putString(PREF_USER_NAME, newScore.getUsername());
+			editor.putString(PREF_USER_NAME, newScore.getAccountName());
 
 			editor.commit();
 
@@ -121,8 +135,9 @@ public class ScoreActivity extends Activity implements OnClickListener {
 	}
 
 	private HighScore makeHighScore() {
+		this.mDBAdapter = MyDBAdapter.getInstance(this);
 		HighScore score = new HighScore();
-		score.setUsername(mPlayerName.getEditableText().toString());
+		score.setAccountName(mDBAdapter.getDefaultAccount().getEmail());
 		score.setDate(System.currentTimeMillis());
 		score.setScore(Long.parseLong(mCurrentScore.getText().toString()));
 

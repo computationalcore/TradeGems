@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="TradeGemsText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#FBB040</item>
+        <item name="android:gravity">center</item>        
+    </style>
+    <style name="TradeGemsText.Large">
+		<item name="android:textSize">@dimen/large_text_size</item>
+    </style>
+    <style name="TradeGemsText.Medium">
+        <item name="android:textSize">@dimen/medium_text_size</item>
+    </style>
+    <style name="TradeGemsText.Small">
+        <item name="android:textSize">@dimen/small_text_size</item>
+    </style>
+</resources>
