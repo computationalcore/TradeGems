@@ -8,7 +8,13 @@ import com.luminia.tradegems.widgets.SelectAccountDialog;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -19,11 +25,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class MainActivity extends FragmentActivity implements OnClickListener{
+public class MainActivity extends FragmentActivity implements OnClickListener, LocationListener{
 	
 	public final static String SERVICE_URL = "http://trade-gems.appspot.com/";
 
 	private static final String TAG = "MainActivity";
+	
+	// Shared preferences Keys
+	private static final String KEY_LATITUDE = "PREF_LATITUDE";
+	private static final String KEY_PROVIDER = "PREF_PROVIDER";
+	private static final String KEY_LONGITUDE = "PREF_LONGITUDE";
+	private static final String KEY_ACCURACY = "PREF_ACCURARY";
 
 	private MyDBAdapter dbAdapter;
 	private Button playGameButton;
@@ -32,6 +44,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	private Button topTenButton;
 	private Button usersOfGameButton;
 	private Button locationButton;
+	
+	LocationManager mLocationManager;
 	
 	/** Called when the activity is first created. */
     @Override
@@ -58,6 +72,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 		
 		dbAdapter = MyDBAdapter.getInstance(this);
 		checkAccounts();
+		detectUserLocation();
     }
     
     private void checkAccounts(){
@@ -122,4 +137,49 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
         }
     	selectAccountDialog.show(getSupportFragmentManager(), "accounts-tag");
     }
+    
+    /**
+     * This method will try to determine the user's current location without interfering 
+     * with the gameplay.
+     */
+    private void detectUserLocation(){
+    	mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		Criteria criteria = new Criteria();
+		criteria.setAccuracy(Criteria.ACCURACY_FINE);
+		criteria.setCostAllowed(false);
+		criteria.setAltitudeRequired(false);
+		criteria.setPowerRequirement(Criteria.POWER_MEDIUM);
+		String providerName = mLocationManager.getBestProvider(criteria, true);
+		Log.d(TAG,"Provider selected based on given criteria: "+providerName);
+//		locationManager.requestSingleUpdate(criteria, this, null);
+		mLocationManager.requestLocationUpdates(providerName, 10000, 10, this);
+    }
+
+	@Override
+	public void onLocationChanged(Location location) {
+		Log.d(TAG,"onLocationChanged");
+		SharedPreferences.Editor editor = getPreferences(Context.MODE_PRIVATE).edit();
+		editor.putFloat(KEY_LATITUDE,(float) location.getLatitude());
+		editor.putFloat(KEY_LONGITUDE, (float) location.getLongitude());
+		editor.putFloat(KEY_ACCURACY, location.getAccuracy());
+		editor.putString(KEY_PROVIDER, location.getProvider());
+		editor.commit();
+		Log.d(TAG,"Latitude: "+location.getLatitude());
+		Log.d(TAG,"Longitude: "+location.getLongitude());
+		Log.d(TAG,"Accuracy: "+location.getAccuracy());
+		Log.d(TAG,"Provider: "+location.getProvider());
+		mLocationManager.removeUpdates(this);
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+	}
 }

@@ -198,20 +198,15 @@ public class GameActivity extends Activity implements OnClickListener {
 
 	/**
 	 * This method update the UI Score and Turns. 
-	 *   
-	                          
-	@param  score  an int value that represent the current user Score Points
-	 *  
-	                          
-	@param  turns an int value that represent the number of turns(movements) of the user
+	 *  @param  score  an int value that representing the current user Score Points
+	 *  @param  turns an int value that represent the number of turns(movements) of the user
 	 */
 	public void updateValues(long score, long turns) {
 		mScore.setText("" + score);
 		mTurns.setText("" + turns + "  ");
 	}
 	
-	public void lastSecond(Boolean state) {
-		
+	public void lastSecond(Boolean state) {	
 		if (state) {
 			mTimer.setTextColor(Color.RED);
 		}
@@ -222,11 +217,8 @@ public class GameActivity extends Activity implements OnClickListener {
 	
 	/**
 	 * This method update the UI Timer. 
-	 *   
-	                          
-	@param  time  an int value that represent the current time in miliseconds
-	
-	*/
+	 *   @param  time  an int value that represent the current time in miliseconds
+	 */
 	public void updateTimer(long time) {
 		int seconds = (int) (time / 1000);
 	    long minutes = seconds / 60;

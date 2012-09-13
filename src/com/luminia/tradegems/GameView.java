@@ -56,6 +56,12 @@ public class GameView extends ViewGroup implements OnClickListener {
 
 	private static final String TAG = "GameView";
 	
+	// Constant values used to associate the gem color with its index in the array of
+	// gem ids. It is also the value used in the database to identify each gem type
+	public final static int RED_GEM = 0;
+	public final static int GREEN_GEM = 1;
+	public final static int BLUE_GEM = 2;
+	
 	//Array that stores the IDs of three different gem images 
 	//(they are set in the init() method
 	private int mGemIds[] = new int[3];
@@ -128,9 +134,9 @@ public class GameView extends ViewGroup implements OnClickListener {
 		background.setAlpha(65);
 		setBackgroundDrawable(background);
 
-		mGemIds[0] = R.drawable.red_gem;
-		mGemIds[1] = R.drawable.green_gem;
-		mGemIds[2] = R.drawable.blue_gem;
+		mGemIds[RED_GEM] = R.drawable.red_gem;
+		mGemIds[GREEN_GEM] = R.drawable.green_gem;
+		mGemIds[BLUE_GEM] = R.drawable.blue_gem;
 	}
 
 	/**
@@ -180,13 +186,10 @@ public class GameView extends ViewGroup implements OnClickListener {
 		}
 		mGameActivity.updateValues(mScore, mTurns);
 		
-		
-		
 		//At start check if any gem column matches
 		requestLayout();
 		checkMatches();
 		mGameCountDownTimer = new GameCountDownTimer(mGameTimer, UPDATE_UI_TIMER);
-		
 	}
 	
 	public void startGame() {
