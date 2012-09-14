@@ -20,7 +20,7 @@
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:text="@string/select_account_explanation"
-         android:padding="@dimen/explanation_text_padding">
+         android:padding="@dimen/medium_text_padding">
      </TextView>
     
 </LinearLayout>

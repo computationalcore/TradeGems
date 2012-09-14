@@ -42,8 +42,6 @@ public class SelectAccountDialog extends DialogFragment implements OnItemClickLi
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Bundle bundle = getArguments();
-		
 	}
 
 	@Override

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Dimensions for the normal bucket -->
 <resources>
+    <!-- General text sizes -->
     <dimen name="large_text_size">45sp</dimen>
 	<dimen name="medium_text_size">15sp</dimen>
+	<dimen name="small_text_size">113sp</dimen>
+    
+	<!-- General text dimensions -->
+	<dimen name="medium_text_padding">5dp</dimen>	
 </resources>

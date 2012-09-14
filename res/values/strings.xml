@@ -42,4 +42,11 @@
 	<string name="select_account_dialog_title">Please select an account</string>
 	<string name="select_account">Select</string>
 	<string name="select_account_explanation">In order to provide a global Geo-Ranking we need to know which account to use to identify you as a player. If you choose to play anonymously you will not be able to post your highest scores on-line</string>
+	
+	<!-- Enter Nickname dialog strings -->
+	<string name="enter_nickname_title">Please enter your desired nickname</string>
+	<string name="nickname_hint">Player101</string>
+	
+	<!-- Google Map API Key -->
+	<string name="map_debug_key">0ZAKS-9FmW0GVvakk-myLYSDr2-Q4gGfkDCXTCA</string>
 </resources>

@@ -3,4 +3,8 @@
 <resources>
     <dimen name="large_text_size">50sp</dimen>
 	<dimen name="medium_text_size">20sp</dimen>
+	<dimen name="small_text_size">15sp</dimen>
+		
+	<!-- General text dimensions -->
+	<dimen name="medium_text_padding">6dp</dimen>
 </resources>

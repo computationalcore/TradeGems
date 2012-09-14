@@ -1,5 +1,8 @@
 package com.luminia.tradegems;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import com.luminia.tradegems.database.GameAccount;
@@ -11,10 +14,13 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -36,6 +42,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 	private static final String KEY_PROVIDER = "PREF_PROVIDER";
 	private static final String KEY_LONGITUDE = "PREF_LONGITUDE";
 	private static final String KEY_ACCURACY = "PREF_ACCURARY";
+	public static final String KEY_CITY = "PREF_CITY";
+	public static final String KEY_STATE = "PREF_STATE";
+	public static final String KEY_COUNTRY = "PREF_COUNTRY";
+	public static final String KEY_NICKNAME = "PREF_NICKNAME";
 
 	private MyDBAdapter dbAdapter;
 	private Button playGameButton;
@@ -45,7 +55,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 	private Button usersOfGameButton;
 	private Button locationButton;
 	
+	// Location related attributes
 	LocationManager mLocationManager;
+	Location mCurrentLocation;
+	ReverseGeocodeLookupTask reverseGeocodeLookupTask = new ReverseGeocodeLookupTask();
 	
 	/** Called when the activity is first created. */
     @Override
@@ -158,16 +171,22 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 	@Override
 	public void onLocationChanged(Location location) {
 		Log.d(TAG,"onLocationChanged");
+		mCurrentLocation = location;
 		SharedPreferences.Editor editor = getPreferences(Context.MODE_PRIVATE).edit();
 		editor.putFloat(KEY_LATITUDE,(float) location.getLatitude());
 		editor.putFloat(KEY_LONGITUDE, (float) location.getLongitude());
 		editor.putFloat(KEY_ACCURACY, location.getAccuracy());
 		editor.putString(KEY_PROVIDER, location.getProvider());
+		
+		//TODO: Debug only! remove this otherwise the user's nickname will be overwritten!
+		editor.putString(KEY_NICKNAME,null);
+
 		editor.commit();
 		Log.d(TAG,"Latitude: "+location.getLatitude());
 		Log.d(TAG,"Longitude: "+location.getLongitude());
 		Log.d(TAG,"Accuracy: "+location.getAccuracy());
 		Log.d(TAG,"Provider: "+location.getProvider());
+		this.reverseGeocodeLookupTask.execute();
 		mLocationManager.removeUpdates(this);
 	}
 
@@ -181,5 +200,57 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
+	}
+	
+	/**
+	 * AsyncTask that will contact Google's server to request a reverse geocode
+	 * asynchronously.
+	 * 
+	 * @author Nelson R. Perez - bilthon@gmail.com
+	 */
+	private class ReverseGeocodeLookupTask extends AsyncTask<Void, Void, String>{
+
+		@Override
+		protected String doInBackground(Void... params) {
+			String currentAddress = "";
+			if(mCurrentLocation != null){
+				Geocoder geocoder = new Geocoder(MainActivity.this,
+						new Locale("en","US"));
+				try {
+					List<Address> addressList = geocoder.getFromLocation(mCurrentLocation.getLatitude(), 
+							mCurrentLocation.getLongitude(), 
+							10);
+					
+					SharedPreferences.Editor editor = getPreferences(Context.MODE_PRIVATE).edit();
+					String city = null;
+					String state = null;
+					String country = null;
+					for(Address address : addressList){
+						if(city == null && address.getLocality() != null)
+							city = address.getLocality();
+						if(state == null && address.getAdminArea() != null)
+							state = address.getAdminArea();
+						if(country == null && address.getCountryName() != null)
+							
+//						Log.d(TAG,"Cidade: "+address.getLocality());
+//						Log.d(TAG,"Estado: "+address.getAdminArea());
+//						Log.d(TAG,"Country: "+address.getCountryName());						
+						if(city != null && state != null && country != null) break;
+					}
+					editor.putString(KEY_CITY, city);
+					editor.putString(KEY_STATE, state);
+					editor.putString(KEY_COUNTRY, country);
+					editor.commit();
+					
+				}catch(IllegalArgumentException e){
+					Log.e(TAG,"IllegalArgumentException caught while getting location from Geocoder");
+					Log.e(TAG,"Msg: "+e.getMessage());
+				}catch (IOException e) {
+					Log.e(TAG,"IOException caught while getting location from Geocoder");
+					Log.e(TAG,"Msg: "+e.getMessage());
+				}
+			}
+			return currentAddress;
+		}
 	}
 }
