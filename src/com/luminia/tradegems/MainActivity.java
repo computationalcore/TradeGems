@@ -34,7 +34,8 @@ import android.widget.Button;
 public class MainActivity extends FragmentActivity implements OnClickListener, LocationListener{
 	
 	public final static String SERVICE_URL = "http://trade-gems.appspot.com/";
-
+	//public final static String SERVICE_URL = "http://192.168.0.157:8080/";
+	
 	private static final String TAG = "MainActivity";
 	
 	// Shared preferences Keys

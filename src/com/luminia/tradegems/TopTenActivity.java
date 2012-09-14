@@ -43,8 +43,8 @@ public class TopTenActivity extends Activity {
 				StringBuilder fullUrl = new StringBuilder(
 						MainActivity.SERVICE_URL);
 
-				fullUrl.append("query_high_scores?count=");
-				fullUrl.append(counts[0]);
+				fullUrl.append("ranking");
+				//fullUrl.append(counts[0]);
 
 				HttpGet get = new HttpGet(fullUrl.toString());
 				HttpResponse response = client.execute(get);

@@ -87,6 +87,14 @@ public class GameView extends ViewGroup implements OnClickListener {
 	//have this, so long is good 2^63)
 	private long mTurns = 0;
 	
+	//Duration of the Scale gem animation
+	//In milliseconds
+	private int mScaleDuration = 125;
+	
+	//Duration of the Translate gem animation
+	//In milliseconds
+	private int mTranslateDuration = 200;
+	
 	//Number of remaining time (in milisecods
 	//Start with 1 min 
 	//TODO: Set this back to 60 seconds. 1000 miliseconds is just for debug
@@ -341,14 +349,14 @@ public class GameView extends ViewGroup implements OnClickListener {
 		//Animate Gem1
 		TranslateAnimation trans1 = new TranslateAnimation(0, gem2.getLeft()
 				- gem1.getLeft(), 0, gem2.getTop() - gem1.getTop());
-		trans1.setDuration(250);
-		trans1.setStartOffset(250);
+		trans1.setDuration(mTranslateDuration);
+		trans1.setStartOffset(mTranslateDuration);
 
 		ScaleAnimation scaleUp1 = new ScaleAnimation(0.5f, 1.0f, 0.5f, 1.0f,
 				Animation.RELATIVE_TO_SELF, .5f, Animation.RELATIVE_TO_SELF,
 				.5f);
-		scaleUp1.setDuration(250);
-		scaleUp1.setStartOffset(500);
+		scaleUp1.setDuration(mScaleDuration);
+		scaleUp1.setStartOffset(mScaleDuration);
 
 		AnimationSet set1 = new AnimationSet(false);
 		set1.addAnimation(scaleUp1);
@@ -360,21 +368,21 @@ public class GameView extends ViewGroup implements OnClickListener {
 		ScaleAnimation scaleDown2 = new ScaleAnimation(1.0f, 0.5f, 1.0f, 0.5f,
 				Animation.RELATIVE_TO_SELF, .5f, Animation.RELATIVE_TO_SELF,
 				.5f);
-		scaleDown2.setDuration(250);
+		scaleDown2.setDuration(mScaleDuration);
 		scaleDown2.setInterpolator(new AnticipateOvershootInterpolator());
  
 		
 		TranslateAnimation trans2 = new TranslateAnimation(0, gem1.getLeft()
 				- gem2.getLeft(), 0, gem1.getTop() - gem2.getTop());
-		trans2.setDuration(250);
-		trans2.setStartOffset(250);
+		trans2.setDuration(mTranslateDuration);
+		trans2.setStartOffset(mTranslateDuration);
 		
 
 		ScaleAnimation scaleUp2 = new ScaleAnimation(1.0f, 2.0f, 1.0f, 2.0f,
 				Animation.RELATIVE_TO_SELF, .5f, Animation.RELATIVE_TO_SELF,
 				.5f);
-		scaleUp2.setDuration(250);
-		scaleUp2.setStartOffset(500);
+		scaleUp2.setDuration(mScaleDuration);
+		scaleUp2.setStartOffset(mScaleDuration);
 
 		AnimationSet set2 = new AnimationSet(false);
 		set2.addAnimation(scaleDown2);

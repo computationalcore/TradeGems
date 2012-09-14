@@ -41,8 +41,8 @@ public class HighScore extends Score {
 		if (jsonObject.has("key")) {
 			key = jsonObject.getLong("key");
 		}
-		if (jsonObject.has("username")) {
-			accountname = jsonObject.getString("username");
+		if (jsonObject.has("nickname")) {
+			accountname = jsonObject.getString("nickname");
 		}
 		if (jsonObject.has("score")) {
 			score = jsonObject.getLong("score");
@@ -51,10 +51,10 @@ public class HighScore extends Score {
 			gameName = jsonObject.getString("gameName");
 		}
 		if (jsonObject.has("longitude")) {
-			longitude = jsonObject.getDouble("longitude");
+			longitude = jsonObject.getDouble("lon");
 		}
 		if (jsonObject.has("latitude")) {
-			latitude = jsonObject.getDouble("latitude");
+			latitude = jsonObject.getDouble("lat");
 		}
 		if (jsonObject.has("date")) {
 			date = jsonObject.getLong("date");
