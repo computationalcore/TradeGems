@@ -122,7 +122,7 @@ public class UsersOfGameActivity extends Activity implements OnClickListener {
 		row.addView(scoreTitleView);
 
 		for (int i = 0; i < result.length(); i++) {
-			HighScore highscore = new HighScore(result.getJSONObject(i));
+			TopScoreReport highscore = new TopScoreReport(result.getJSONObject(i));
 
 			row = new TableRow(this);
 			row.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,

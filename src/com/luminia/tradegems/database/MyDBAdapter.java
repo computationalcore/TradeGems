@@ -188,11 +188,22 @@ public class MyDBAdapter {
 		if(!this.isOpen()){
 			this.open();
 		}
-		ContentValues contentValues = new ContentValues();
-		contentValues.put(COL_EMAIL, currentScore.getAccountName());
-		contentValues.put(COL_SCORE,currentScore.getScore().longValue());
-		mydb.beginTransaction();
-		try{
+		int accountId;
+		String[] columns = {KEY_ID};
+		try {
+			Cursor cursor = mydb.query(TABLE_ACCOUNTS, columns, COL_EMAIL+"=\""+currentScore.getAccountName()+"\"",null,null,null,null);
+			if(!cursor.moveToFirst()){
+				Log.e(TAG,"Could not find an account id for account name: "+currentScore.getAccountName());
+				return;
+			}else{
+				
+			}
+			accountId = cursor.getInt(0);
+			ContentValues contentValues = new ContentValues();
+			contentValues.put(COL_SCORE,currentScore.getScore().longValue());
+			contentValues.put(COL_ACCOUNT_ID, accountId);
+			mydb.beginTransaction();
+
 			mydb.insertOrThrow(TABLE_SCORES, null, contentValues);
 		}catch(SQLException e){
 			Log.e(TAG,"SQLException caught!. Msg: "+e.getMessage());

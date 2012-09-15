@@ -97,7 +97,7 @@ public class ScoreDialog extends Dialog implements OnClickListener {
 	
 	@Override
 	public void onClick(View view) {
-		HighScore newScore = makeHighScore();
+		TopScoreReport newScore = makeHighScore();
 		updateLocalHighScore(newScore);
 
 		if (view == mConfirm) {
@@ -110,20 +110,20 @@ public class ScoreDialog extends Dialog implements OnClickListener {
 		}
 	}
 
-	private void updateLocalHighScore(HighScore newScore) {
+	private void updateLocalHighScore(TopScoreReport newScore) {
 		try {
 
 			SharedPreferences settings = getContext().getSharedPreferences(
 					HighScoreView.PREF_GAME, 0);
 			String json = settings.getString(HighScoreView.PREF_HIGH_SCORE,
-					HighScore.createDefaultScores());
+					TopScoreReport.createDefaultScores());
 
 			JSONArray currentScores = new JSONArray(json);
 
-			List<HighScore> highscores = HighScore.toList(currentScores);
+			List<TopScoreReport> highscores = TopScoreReport.toList(currentScores);
 			highscores.add(newScore);
 
-			JSONArray updatedScores = HighScore.toJSONArray(highscores);
+			JSONArray updatedScores = TopScoreReport.toJSONArray(highscores);
 			Editor editor = settings.edit();
 
 			editor.putString(HighScoreView.PREF_HIGH_SCORE,
@@ -137,10 +137,9 @@ public class ScoreDialog extends Dialog implements OnClickListener {
 		}
 	}
 
-	private HighScore makeHighScore() {
-		HighScore score = new HighScore();
+	private TopScoreReport makeHighScore() {
+		TopScoreReport score = new TopScoreReport();
 		score.setAccountName(mPlayerName.getEditableText().toString());
-		score.setDate(System.currentTimeMillis());
 		score.setScore(mActivity.getScore());
 
 		LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
@@ -156,21 +155,19 @@ public class ScoreDialog extends Dialog implements OnClickListener {
 				break;
 			}
 		}
-		score.setGameName( mActivity.getString(R.string.app_name) );
-
 		return score;
 	}
 
-	private class ReportScore extends AsyncTask<HighScore, Integer, HighScore> {
+	private class ReportScore extends AsyncTask<TopScoreReport, Integer, TopScoreReport> {
 
 		@Override
-		protected HighScore doInBackground(HighScore... highscores) {
+		protected TopScoreReport doInBackground(TopScoreReport... highscores) {
 			try {
 				DefaultHttpClient client = new DefaultHttpClient();
 
 				StringBuilder fullUrl = new StringBuilder(SERVICE_URL);
 
-				HighScore highScore = highscores[0];
+				TopScoreReport highScore = highscores[0];
 				JSONObject jsonObject = highScore.toJSONObject();
 				String jsonStr = jsonObject.toString();
 
@@ -184,7 +181,7 @@ public class ScoreDialog extends Dialog implements OnClickListener {
 				if (statusCode == 200) {
 					HttpEntity entity = response.getEntity();
 					String json = EntityUtils.toString(entity);
-					return new HighScore(new JSONObject(json));
+					return new TopScoreReport(new JSONObject(json));
 				} else {
 					String reason = response.getStatusLine().getReasonPhrase();
 					throw new RuntimeException("Trouble adding score(code="

@@ -4,8 +4,9 @@ import java.util.Comparator;
 
 public class Score implements Comparator<Score>{
 	
-	protected Long score;
 	protected String accountname;
+	protected Long score;
+	protected Integer turn;
 	
 	public Score(){}
 	

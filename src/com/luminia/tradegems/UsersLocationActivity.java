@@ -102,7 +102,7 @@ public class UsersLocationActivity extends MapActivity {
 		HighscoreOverlay highscoreOverlay = new HighscoreOverlay(drawable);
 
 		for (int i = 0; i < result.length(); i++) {
-			HighScore highscore = new HighScore(result.getJSONObject(i));
+			TopScoreReport highscore = new TopScoreReport(result.getJSONObject(i));
 
 			String username = highscore.getAccountName();
 			String score = "" + highscore.getScore();

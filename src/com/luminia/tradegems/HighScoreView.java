@@ -48,7 +48,7 @@ public class HighScoreView extends View {
 	public final static String PREF_GAME = "PREF_GAME";
 	public final static String PREF_HIGH_SCORE = "PREF_HIGH_SCORE";
 
-	private List<HighScore> highscores;
+	private List<TopScoreReport> highscores;
 
 	public HighScoreView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -64,11 +64,10 @@ public class HighScoreView extends View {
 		SharedPreferences settings = getContext().getSharedPreferences(
 				PREF_GAME, 0);
 		String json = settings.getString(PREF_HIGH_SCORE,
-				HighScore.createDefaultScores());
+				TopScoreReport.createDefaultScores());
 		try {
 			JSONArray jsonArray = new JSONArray(json);
-
-			highscores = HighScore.toList(jsonArray);
+			highscores = TopScoreReport.toList(jsonArray);
 		} catch (JSONException e) {
 			throw new RuntimeException(e);
 		}
@@ -124,7 +123,7 @@ public class HighScoreView extends View {
 		scorePaint.setShader(radialGradient);
 
 		int index = 0;
-		for (HighScore score : highscores) {
+		for (TopScoreReport score : highscores) {
 			canvas.drawText(score.getAccountName(), 40, 150 + index * 30,
 					scorePaint);
 			canvas.drawText("" + score.getScore(), width - 115,

@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -39,6 +40,8 @@ import com.luminia.tradegems.GameView;
 public class GameActivity extends Activity implements OnClickListener {
 
 	private final static int PAUSE_DIALOG = 1;
+
+	private static final String TAG = "GameActivity";
 	
 	//creates a ViewSwitcher object, to switch between Views
 	//Used by to show a loading screen before game start
@@ -246,8 +249,8 @@ public class GameActivity extends Activity implements OnClickListener {
 
 	public void endGame() {
 		Intent intent = new Intent(GameActivity.this, ScoreActivity.class);
-		intent.putExtra("score",mScore.getText());
-		intent.putExtra("turns",mTurns.getText());
+		intent.putExtra(MainActivity.KEY_SCORE,mScore.getText());
+		intent.putExtra(MainActivity.KEY_TURN,mTurns.getText());
 		startActivity(intent);
 		this.finish();
 	}

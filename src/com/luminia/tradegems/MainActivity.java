@@ -39,14 +39,20 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 	private static final String TAG = "MainActivity";
 	
 	// Shared preferences Keys
-	private static final String KEY_LATITUDE = "PREF_LATITUDE";
-	private static final String KEY_PROVIDER = "PREF_PROVIDER";
-	private static final String KEY_LONGITUDE = "PREF_LONGITUDE";
-	private static final String KEY_ACCURACY = "PREF_ACCURARY";
-	public static final String KEY_CITY = "PREF_CITY";
-	public static final String KEY_STATE = "PREF_STATE";
-	public static final String KEY_COUNTRY = "PREF_COUNTRY";
-	public static final String KEY_NICKNAME = "PREF_NICKNAME";
+	public static final String KEY_PREFERENCES = "preferences";
+	public static final String KEY_NICKNAME = "nickname";
+	public static final String KEY_EMAIL = "email";
+	public static final String KEY_SCORE = "score";
+	public static final String KEY_TURN = "turn";
+	public static final String KEY_LATITUDE = "lat";
+	public static final String KEY_LONGITUDE = "lon";
+	public static final String KEY_CITY = "city";
+	public static final String KEY_STATE = "state";
+	public static final String KEY_COUNTRY = "country";
+	public static final String KEY_PROVIDER = "provider";
+	public static final String KEY_ACCURACY = "accuracy";
+	public static final String KEY_PARENT = "parent_key";
+	
 
 	private MyDBAdapter dbAdapter;
 	private Button playGameButton;
@@ -222,7 +228,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 							mCurrentLocation.getLongitude(), 
 							10);
 					
-					SharedPreferences.Editor editor = getPreferences(Context.MODE_PRIVATE).edit();
+					SharedPreferences.Editor editor = getSharedPreferences(KEY_PREFERENCES,Context.MODE_PRIVATE).edit();
 					String city = null;
 					String state = null;
 					String country = null;
@@ -232,12 +238,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 						if(state == null && address.getAdminArea() != null)
 							state = address.getAdminArea();
 						if(country == null && address.getCountryName() != null)
-							
-//						Log.d(TAG,"Cidade: "+address.getLocality());
-//						Log.d(TAG,"Estado: "+address.getAdminArea());
-//						Log.d(TAG,"Country: "+address.getCountryName());						
+							country = address.getCountryName();
+						
 						if(city != null && state != null && country != null) break;
 					}
+					Log.d(TAG,"Cidade: "+city);
+					Log.d(TAG,"Estado: "+state);
+					Log.d(TAG,"Country: "+country);						
+
 					editor.putString(KEY_CITY, city);
 					editor.putString(KEY_STATE, state);
 					editor.putString(KEY_COUNTRY, country);
