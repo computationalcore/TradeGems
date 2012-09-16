@@ -12,6 +12,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -178,8 +179,6 @@ public class ScoreActivity extends FragmentActivity implements OnClickListener {
 		SharedPreferences pref = getSharedPreferences(MainActivity.KEY_PREFERENCES,Context.MODE_PRIVATE);
 		if(mNickname == null || mNickname == "")
 			mNickname = pref.getString(MainActivity.KEY_NICKNAME,"anon");
-		if(mEmail == null || mEmail == "")
-			mEmail = pref.getString(mDBAdapter.getDefaultAccount().getEmail(),"bogus@luminiasoft.com");
 		if(mLat == null)
 			mLat = pref.getFloat(MainActivity.KEY_LATITUDE,0.0f);
 		if(mLon == null)
@@ -194,6 +193,8 @@ public class ScoreActivity extends FragmentActivity implements OnClickListener {
 			mProvider = pref.getString(MainActivity.KEY_PROVIDER,"Telepathy");
 		if(mAccuracy == null || mAccuracy == 0.0f)
 			mAccuracy = pref.getFloat(MainActivity.KEY_ACCURACY,Float.MAX_VALUE);
+		if(mEmail == null || mEmail == "")
+			mEmail = mDBAdapter.getDefaultAccount().getEmail();
 	}
 
 
@@ -222,6 +223,8 @@ public class ScoreActivity extends FragmentActivity implements OnClickListener {
 				nameValuePairs.add(new BasicNameValuePair(MainActivity.KEY_COUNTRY,mCountry));
 				nameValuePairs.add(new BasicNameValuePair(MainActivity.KEY_PROVIDER,mProvider));
 				nameValuePairs.add(new BasicNameValuePair(MainActivity.KEY_ACCURACY,mAccuracy.toString()));
+				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+				
 				Log.d(TAG,"nickname: "+mNickname);
 				Log.d(TAG,"email: "+mEmail);
 				Log.d(TAG,"score: "+mScore.toString());
@@ -233,6 +236,12 @@ public class ScoreActivity extends FragmentActivity implements OnClickListener {
 				Log.d(TAG,"country: "+mCountry);
 				Log.d(TAG,"provider: "+mProvider);
 				Log.d(TAG,"accuracy: "+mAccuracy);
+				Log.d(TAG,"Inspecting http post entity");
+				BufferedReader r = new BufferedReader(new InputStreamReader(httpPost.getEntity().getContent()));
+				for(String line = r.readLine(); line != null; line = r.readLine()){
+					Log.d(TAG,"Line: "+line);
+				}
+				
 				HttpResponse response = client.execute(httpPost);
 				Log.d(TAG,"Response: "+response.getStatusLine());
 				InputStreamReader ir = new InputStreamReader(response.getEntity().getContent());

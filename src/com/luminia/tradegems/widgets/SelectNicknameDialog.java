@@ -28,7 +28,7 @@ public class SelectNicknameDialog extends DialogFragment {
 		mSubmit.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				SharedPreferences.Editor editor = getActivity().getPreferences(Context.MODE_PRIVATE).edit();
+				SharedPreferences.Editor editor = getActivity().getSharedPreferences(MainActivity.KEY_PREFERENCES,Context.MODE_PRIVATE).edit();
 				String nickname = mNicknameEditText.getText().toString();
 				if(nickname != null && !nickname.equals("")){
 					editor.putString(MainActivity.KEY_NICKNAME, nickname);

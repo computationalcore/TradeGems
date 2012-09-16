@@ -43,7 +43,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 	public static final String KEY_NICKNAME = "nickname";
 	public static final String KEY_EMAIL = "email";
 	public static final String KEY_SCORE = "score";
-	public static final String KEY_TURN = "turn";
+	public static final String KEY_TURN = "turns";
 	public static final String KEY_LATITUDE = "lat";
 	public static final String KEY_LONGITUDE = "lon";
 	public static final String KEY_CITY = "city";
@@ -179,7 +179,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 	public void onLocationChanged(Location location) {
 		Log.d(TAG,"onLocationChanged");
 		mCurrentLocation = location;
-		SharedPreferences.Editor editor = getPreferences(Context.MODE_PRIVATE).edit();
+		SharedPreferences.Editor editor = getSharedPreferences(MainActivity.KEY_PREFERENCES,Context.MODE_PRIVATE).edit();
 		editor.putFloat(KEY_LATITUDE,(float) location.getLatitude());
 		editor.putFloat(KEY_LONGITUDE, (float) location.getLongitude());
 		editor.putFloat(KEY_ACCURACY, location.getAccuracy());
@@ -189,10 +189,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 		editor.putString(KEY_NICKNAME,null);
 
 		editor.commit();
-		Log.d(TAG,"Latitude: "+location.getLatitude());
-		Log.d(TAG,"Longitude: "+location.getLongitude());
-		Log.d(TAG,"Accuracy: "+location.getAccuracy());
-		Log.d(TAG,"Provider: "+location.getProvider());
+//		Log.d(TAG,"Latitude: "+location.getLatitude());
+//		Log.d(TAG,"Longitude: "+location.getLongitude());
+//		Log.d(TAG,"Accuracy: "+location.getAccuracy());
+//		Log.d(TAG,"Provider: "+location.getProvider());
 		this.reverseGeocodeLookupTask.execute();
 		mLocationManager.removeUpdates(this);
 	}
@@ -242,9 +242,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 						
 						if(city != null && state != null && country != null) break;
 					}
-					Log.d(TAG,"Cidade: "+city);
-					Log.d(TAG,"Estado: "+state);
-					Log.d(TAG,"Country: "+country);						
+//					Log.d(TAG,"Cidade: "+city);
+//					Log.d(TAG,"Estado: "+state);
+//					Log.d(TAG,"Country: "+country);					
 
 					editor.putString(KEY_CITY, city);
 					editor.putString(KEY_STATE, state);

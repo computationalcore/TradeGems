@@ -19,10 +19,9 @@ import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
 
 public class TopTenActivity extends Activity {
-
 	public HttpClient client = new DefaultHttpClient();
-
 	private TableLayout tableLayout;
+	private static final String TAG = "TopTenActivity";
 
 	/** Called when the activity is first created. */
 	@Override
@@ -37,8 +36,10 @@ public class TopTenActivity extends Activity {
 	}
 
 	private class GetTopTen extends AsyncTask<Integer, Integer, JSONArray> {
+
 		@Override
 		protected JSONArray doInBackground(Integer... counts) {
+			JSONArray result = null;
 			try {
 				StringBuilder fullUrl = new StringBuilder(
 						MainActivity.SERVICE_URL);
@@ -54,17 +55,16 @@ public class TopTenActivity extends Activity {
 				if (statusCode == 200) {
 					HttpEntity entity = response.getEntity();
 					String json = EntityUtils.toString(entity);
-					return new JSONArray(json);
+					result = new JSONArray(json);
 				} else {
-					String reason = response.getStatusLine().getReasonPhrase();
-					throw new RuntimeException("Trouble getting scores(code="
-							+ statusCode + "):" + reason);
+					Log.e(TAG,"Error");
+					Log.e(TAG,"Response line: "+response.getStatusLine());
 				}
-
 			} catch (Exception e) {
-				Log.w("TopTenActivity", e);
-				throw new RuntimeException(e);
+				Log.e(TAG, "Exception caught in GetTopTen");
+				Log.e(TAG,"Msg: "+e.getMessage());
 			}
+			return result;
 		}
 
 		protected void onPostExecute(final JSONArray result) {

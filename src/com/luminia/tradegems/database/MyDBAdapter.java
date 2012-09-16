@@ -188,10 +188,11 @@ public class MyDBAdapter {
 		if(!this.isOpen()){
 			this.open();
 		}
+		Cursor cursor = null;
 		int accountId;
 		String[] columns = {KEY_ID};
 		try {
-			Cursor cursor = mydb.query(TABLE_ACCOUNTS, columns, COL_EMAIL+"=\""+currentScore.getAccountName()+"\"",null,null,null,null);
+			cursor = mydb.query(TABLE_ACCOUNTS, columns, COL_EMAIL+"=\""+currentScore.getAccountName()+"\"",null,null,null,null);
 			if(!cursor.moveToFirst()){
 				Log.e(TAG,"Could not find an account id for account name: "+currentScore.getAccountName());
 				return;
@@ -208,6 +209,7 @@ public class MyDBAdapter {
 		}catch(SQLException e){
 			Log.e(TAG,"SQLException caught!. Msg: "+e.getMessage());
 		}finally{
+			cursor.close();
 			mydb.endTransaction();
 			this.close();
 		}

@@ -71,7 +71,6 @@ public class SelectAccountDialog extends DialogFragment implements OnItemClickLi
 		MyDBAdapter dbAdapter = MyDBAdapter.getInstance(getActivity());
 		GameAccount account = new GameAccount();
 		account.setEmail( (String) ((TextView)view).getText());
-		Log.d(TAG,"Setting default email to: "+account.getEmail());
 		dbAdapter.insertAccount(account,true);
 		this.dismiss();
 	}
