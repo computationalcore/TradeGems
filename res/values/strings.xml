@@ -49,4 +49,7 @@
 	
 	<!-- Google Map API Key -->
 	<string name="map_debug_key">0ZAKS-9FmW0GVvakk-myLYSDr2-Q4gGfkDCXTCA</string>
+	
+	<!-- Top ten activity -->
+	<string name="top_ten_title">Top ten scores</string>
 </resources>

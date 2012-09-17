@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
@@ -21,18 +22,19 @@ import android.widget.TextView;
 public class TopTenActivity extends Activity {
 	public HttpClient client = new DefaultHttpClient();
 	private TableLayout tableLayout;
+	
+	private ListView list;
+	private PlayerListAdapter adapter;
 	private static final String TAG = "TopTenActivity";
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.topten);
-
-		tableLayout = (TableLayout) findViewById(R.id.tableLayout);
-
+		setContentView(R.layout.top_ten_list);
+//		tableLayout = (TableLayout) findViewById(R.id.tableLayout);
+		list = (ListView) findViewById(R.id.TopTenList);
 		new GetTopTen().execute(10);
-
 	}
 
 	private class GetTopTen extends AsyncTask<Integer, Integer, JSONArray> {
@@ -68,20 +70,32 @@ public class TopTenActivity extends Activity {
 		}
 
 		protected void onPostExecute(final JSONArray result) {
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						displayResults(result);
-					} catch (JSONException e) {
-						Log.w("TopTenActivity", e);
-					}
-				}
-			});
+			Log.d(TAG,"Result in PostExecute: "+result);
+//			runOnUiThread(new Runnable() {
+//				@Override
+//				public void run() {
+//					try {
+//						displayResults(result);
+//					} catch (JSONException e) {
+//						Log.w("TopTenActivity", e);
+//					}
+//				}
+//			});
+			if(result != null){
+				adapter = new PlayerListAdapter(TopTenActivity.this,result);
+				list.setAdapter(adapter);
+				list.invalidate();
+			}else{
+				//TODO: Set an empty view for the empty ListView
+//				list.setEmptyView(emptyView);
+			}
 		}
 	}
 
 	protected void displayResults(JSONArray result) throws JSONException {
+		if(result == null){
+			Log.e(TAG,"AsyncTask returned a null result");
+		}
 		tableLayout.removeAllViews();
 
 		TableRow row = new TableRow(this);
@@ -98,6 +112,9 @@ public class TopTenActivity extends Activity {
 		scoreTitleView.setText("Score:");
 		scoreTitleView.setTextSize(18);
 		row.addView(scoreTitleView);
+		
+		tableLayout.addView(row, new TableLayout.LayoutParams(
+				LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 
 		for (int i = 0; i < result.length(); i++) {
 			TopScoreReport highscore = new TopScoreReport(result.getJSONObject(i));
