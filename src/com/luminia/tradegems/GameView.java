@@ -83,6 +83,10 @@ public class GameView extends ViewGroup implements OnClickListener {
 	//have this, so long is good 2^63)
 	private long mScore = 0;
 	
+	//Multiplier for the score when user 
+	private long mScoreMultiplier = 1;
+	
+		
 	//Number of turns (the ideal was use a unsigned long, but java do not
 	//have this, so long is good 2^63)
 	private long mTurns = 0;
@@ -95,9 +99,9 @@ public class GameView extends ViewGroup implements OnClickListener {
 	//In milliseconds
 	private int mTranslateDuration = 200;
 	
-	//Number of remaining time (in milisecods
+	//Number of remaining time (in milliseconds)
 	//Start with 1 min 
-	//TODO: Set this back to 60 seconds. 1000 miliseconds is just for debug
+	//TODO: Set this back to 60 seconds. 1000 milliseconds is just for debug
 	// Nelson R. Perez
 	private long mGameTimer = 20000;
 
@@ -192,11 +196,11 @@ public class GameView extends ViewGroup implements OnClickListener {
 				addView(mGemView);
 			}
 		}
-		mGameActivity.updateValues(mScore, mTurns);
+		mGameActivity.updateValues(mScore, mScoreMultiplier,  mTurns);
 		
 		//At start check if any gem column matches
 		requestLayout();
-		checkMatches();
+		checkMatches(false);
 		mGameCountDownTimer = new GameCountDownTimer(mGameTimer, UPDATE_UI_TIMER);
 	}
 	
@@ -404,7 +408,7 @@ public class GameView extends ViewGroup implements OnClickListener {
 				 * the other gem.
 				 */
 				requestLayout();	
-				checkMatches();
+				checkMatches(false);
 			}
 		});
 		gem2.startAnimation(set2);
@@ -412,13 +416,13 @@ public class GameView extends ViewGroup implements OnClickListener {
 
 	protected void doneAnimating() {
 		requestLayout();
-		mGameActivity.updateValues(mScore, mTurns);
+		mGameActivity.updateValues(mScore, mScoreMultiplier, mTurns);
 		mAcceptInput = true;
 		
 	}
 
 	
-	protected void checkMatches() {
+	protected void checkMatches(boolean loop) {
 		
 		//The 2 Hashsets records all GemViews that are in matching rows or columns
 		Set<GemView> matchingRows = new HashSet<GemView>();
@@ -468,11 +472,29 @@ public class GameView extends ViewGroup implements OnClickListener {
 			}
 		}
 
-		//If the orbs row or column are not from the same type
-		if (matchingRows.size() == 0 && matchingColumns.size() == 0) {
+		//Get Size of matching row/column
+		int matchingRowSize = matchingRows.size();
+		int matchingColumnSize = matchingColumns.size();
+		
+		//If the gems row or column are not from the same type
+		if (matchingRowSize == 0 && matchingColumnSize == 0) {
+			
+			if (!loop) {
+				//Rule for Score and Multiplier
+				if (mScoreMultiplier > 1) 
+					mScoreMultiplier = 1;
+				else {
+					if (mScore >= 10) 
+						mScore -= 10;
+					else
+						mScore = 0;
+				}
+				Log.i(TAG,"Multiplier: "+mScoreMultiplier);
+			}		
 			doneAnimating();
 			return;
 		}
+				
 
 		//If they are an animation sequence is created for each GemView to 
 		//produce a sequence
@@ -482,7 +504,8 @@ public class GameView extends ViewGroup implements OnClickListener {
 		final Set<GemView> allGems = new HashSet<GameView.GemView>(matchingColumns);
 		allGems.addAll(matchingRows);
 
-		if (matchingRows.size() != 0) {
+			
+		if (matchingRowSize != 0) {
 			for (GemView gemView : matchingRows) {
 				
 				ScaleAnimation scaleDown = new ScaleAnimation(1.0f, 0.5f, 1.0f,
@@ -504,6 +527,8 @@ public class GameView extends ViewGroup implements OnClickListener {
 				set.addAnimation(scaleDown);
 				set.addAnimation(trans);
 
+				//Increment
+				
 				if (!runAfterSet) {
 					runAfterSet = true;
 					set.setAnimationListener(new RunAfter() {
@@ -518,7 +543,7 @@ public class GameView extends ViewGroup implements OnClickListener {
 			}
 		}
 
-		if (matchingColumns.size() != 0) {
+		if (matchingColumnSize != 0) {
 			for (GemView gemView : matchingColumns) {
 				ScaleAnimation scaleDown = new ScaleAnimation(1.0f, 0.5f, 1.0f,
 						0.5f, Animation.RELATIVE_TO_SELF, 0.5f,
@@ -550,6 +575,18 @@ public class GameView extends ViewGroup implements OnClickListener {
 
 				gemView.startAnimation(set);
 			}
+					
+		}
+		
+		
+		//If both 
+		if ( (matchingRowSize != 0) && (matchingColumnSize != 0) ) {
+				mScoreMultiplier *= 2;
+				Log.i(TAG,"Multiplier: "+mScoreMultiplier);
+		}
+		//If only one of them are completed
+		else { 
+				mScoreMultiplier += 1;
 		}
 
 	}
@@ -564,8 +601,9 @@ public class GameView extends ViewGroup implements OnClickListener {
 	 * @param allGems A set of GemView objects .
 	 */
 	private void updateRemovedGems(Set<GemView> allGems) {
+		
 		//General method to update Scores
-		mScore += allGems.size() * 5;
+		mScore += allGems.size() * 10 * mScoreMultiplier;
 		
 		long timeBonus;
 		if (mTurns/20 < 5 ){
@@ -584,7 +622,7 @@ public class GameView extends ViewGroup implements OnClickListener {
 			gemView.setRandomType();
 		}
 		requestLayout();
-		checkMatches();
+		checkMatches(true);
 	}
 
 	

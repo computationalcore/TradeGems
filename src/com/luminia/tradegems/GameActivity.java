@@ -50,6 +50,7 @@ public class GameActivity extends Activity implements OnClickListener {
 	
 	private TextView mTurns;
 	private TextView mScore;
+	private TextView mScoreMultiplier;
 	private TextView mTimer;
 	private Button mPauseButton;
 	private GameView mGame;
@@ -66,6 +67,7 @@ public class GameActivity extends Activity implements OnClickListener {
 	public void init(){
 		mTurns = (TextView) findViewById(R.id.turns);
 		mScore = (TextView) findViewById(R.id.score);
+		mScoreMultiplier = (TextView) findViewById(R.id.score_multiplier);
 		mTimer = (TextView) findViewById(R.id.countdown_timer);
 		mPauseButton = (Button) findViewById(R.id.pause_button);
 
@@ -201,11 +203,14 @@ public class GameActivity extends Activity implements OnClickListener {
 
 	/**
 	 * This method update the UI Score and Turns. 
-	 *  @param  score  an int value that representing the current user Score Points
-	 *  @param  turns an int value that represent the number of turns(movements) of the user
+	 *  @param  score  a long value that represents the current user Score Points
+	 *  @param  scoreMultiplier  a long value that represents the current Score Multiplier
+	 *  @param  turns a long value that represents the number of turns(movements) of the user
 	 */
-	public void updateValues(long score, long turns) {
+	public void updateValues(long score, long scoreMultiplier, long turns) {
 		mScore.setText("" + score);
+		if (scoreMultiplier > 1) mScoreMultiplier.setText(""+scoreMultiplier+"x");
+		else mScoreMultiplier.setText("  ");
 		mTurns.setText("" + turns + "  ");
 	}
 	

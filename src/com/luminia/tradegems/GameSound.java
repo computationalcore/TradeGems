@@ -97,8 +97,8 @@ public class GameSound{
 	public void playGameMusic() {
 		if (!mSound) return;
 	    if (!mMusicPlayer.isPlaying()) {
-	    	//the game music have 70% of the current volume
-		    float volume = getVolume() * 0.7f;
+	    	//the game music have 90% of the current volume
+		    float volume = getVolume() * 0.9f;
 	    	mMusicPlayer.seekTo(0);
 	    	mMusicPlayer.setVolume(volume, volume);
 	    	mMusicPlayer.start();
