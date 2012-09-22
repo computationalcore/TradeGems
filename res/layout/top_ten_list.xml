@@ -8,9 +8,10 @@
 	    android:text="@string/top_ten_title"/>
 	<ListView android:id="@+id/TopTenList"
 	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
+	    android:layout_height="0dp"
 	    android:divider="#b5b5b5"
 	    android:dividerHeight="1dp"
-	    android:listSelector="@drawable/list_selector" >
+	    android:layout_weight="1"
+	    android:listSelector="@drawable/list_selector">
 	</ListView>
 </LinearLayout>

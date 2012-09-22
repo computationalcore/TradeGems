@@ -55,6 +55,11 @@ public class PlayerListAdapter extends BaseAdapter {
 		if(vi == null){
 			vi = mInflater.inflate(R.layout.list_row, null);
 		}
+		if(position == 0){
+			vi.setBackgroundResource(R.drawable.rounded_corners_top);
+		}else if(position  == mData.length()-1){
+			vi.setBackgroundResource(R.drawable.rounded_corners_bottom);
+		}
 		try {
 			JSONObject data = (JSONObject) mData.get(position);
 			name = data.getString("nickname");
