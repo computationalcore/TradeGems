@@ -1,5 +1,7 @@
 package com.luminia.tradegems;
 
+import java.io.IOException;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -10,6 +12,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,7 +39,12 @@ public class TopTenActivity extends Activity {
 		setContentView(R.layout.top_ten_list);
 //		tableLayout = (TableLayout) findViewById(R.id.tableLayout);
 		list = (ListView) findViewById(R.id.TopTenList);
-		new GetTopTen().execute(10);
+		if(isNetworkAvailable()){
+			new GetTopTen().execute(10);
+		}else{
+			setContentView(R.layout.no_internet);
+			// Place a message in the background telling the user to switch on the network
+		}
 	}
 
 	private class GetTopTen extends AsyncTask<Integer, Integer, JSONArray> {
@@ -62,7 +72,10 @@ public class TopTenActivity extends Activity {
 					Log.e(TAG,"Error");
 					Log.e(TAG,"Response line: "+response.getStatusLine());
 				}
-			} catch (Exception e) {
+			}catch(IOException e){
+				Log.e(TAG,"IOException caught in GetTopTen");
+				Log.e(TAG,"Msg: "+e.getMessage());
+			}catch (Exception e) {
 				Log.e(TAG, "Exception caught in GetTopTen");
 				Log.e(TAG,"Msg: "+e.getMessage());
 			}
@@ -136,5 +149,20 @@ public class TopTenActivity extends Activity {
 			tableLayout.addView(row, new TableLayout.LayoutParams(
 					LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		}
+	}
+	
+	/**
+	 * Method that will check for any network connectivity
+	 * @return True if there is a network connection available, false otherwise
+	 */
+	private boolean isNetworkAvailable() {
+	    ConnectivityManager connectivityManager 
+	          = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    if(activeNetworkInfo != null)
+	    	Log.d(TAG,"activeNetworkInfo: "+activeNetworkInfo.describeContents());
+	    else
+	    	Log.d(TAG,"No network");
+	    return activeNetworkInfo != null;
 	}
 }
