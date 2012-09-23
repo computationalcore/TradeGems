@@ -17,13 +17,12 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
+//import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ProgressBar;
+//import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
@@ -40,8 +39,6 @@ import com.luminia.tradegems.GameView;
 public class GameActivity extends Activity implements OnClickListener {
 
 	private final static int PAUSE_DIALOG = 1;
-
-	private static final String TAG = "GameActivity";
 	
 	//creates a ViewSwitcher object, to switch between Views
 	//Used by to show a loading screen before game start
@@ -54,31 +51,38 @@ public class GameActivity extends Activity implements OnClickListener {
 	private TextView mTimer;
 	private Button mPauseButton;
 	private GameView mGame;
+	private boolean mGamePaused = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		this.init();
 		//Initialize a LoadViewTask object and call the execute() method
 		//This is a subclass of this class
-        new LoadViewTask().execute();
+        //new LoadViewTask().execute();
 	}
 	
 	public void init(){
+		
+		setContentView(R.layout.game);
+		
 		mTurns = (TextView) findViewById(R.id.turns);
 		mScore = (TextView) findViewById(R.id.score);
 		mScoreMultiplier = (TextView) findViewById(R.id.score_multiplier);
 		mTimer = (TextView) findViewById(R.id.countdown_timer);
 		mPauseButton = (Button) findViewById(R.id.pause_button);
-
-		mPauseButton.setOnClickListener(this);
+		
 		
 		mGame = (GameView) findViewById(R.id.gameView);
-
-		mGame.reset(this);
-		mGame.startGame();
+		
+		//Start Game
+		GameActivity.this.mPauseButton.setOnClickListener(GameActivity.this);
+		GameActivity.this.mGame.reset(GameActivity.this);
+		GameActivity.this.mGame.startGame();
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onClick(View view) {
 
@@ -109,6 +113,7 @@ public class GameActivity extends Activity implements OnClickListener {
 	}
 	
 	//To use the AsyncTask, it must be subclassed
+	/*
     private class LoadViewTask extends AsyncTask<Void, Integer, Void>
     {
     	//A TextView object and a ProgressBar object
@@ -124,6 +129,7 @@ public class GameActivity extends Activity implements OnClickListener {
 	        /* Initialize the loading screen with data from the 
 	         * 'loadingscreen.xml' layout xml file. 
 	         * Add the initialized View to the viewSwitcher.*/
+	/*
 			viewSwitcher.addView(ViewSwitcher.inflate(GameActivity.this, R.layout.loading_screen, null));
 			
 			//Initialize the TextView and ProgressBar instances - 
@@ -138,7 +144,7 @@ public class GameActivity extends Activity implements OnClickListener {
 			
 			/* Initialize the application's main interface from the 'main.xml' layout xml file. 
 	         * Add the initialized View to the viewSwitcher.*/
-			viewSwitcher.addView(ViewSwitcher.inflate(GameActivity.this, R.layout.game, null));
+	/*		viewSwitcher.addView(ViewSwitcher.inflate(GameActivity.this, R.layout.game, null));
 
 		}
 
@@ -151,7 +157,7 @@ public class GameActivity extends Activity implements OnClickListener {
 			 * is where the code that is going to be executed on a background
 			 * thread must be placed. 
 			 */			
-			try 
+	/*		try 
 			{
 				//Get the current thread's token
 				synchronized (this) 
@@ -195,11 +201,11 @@ public class GameActivity extends Activity implements OnClickListener {
 		protected void onPostExecute(Void result) 
 		{
 			//Switch the Views
-			viewSwitcher.showNext();
-			GameActivity.this.init();
+			viewSwitcher.showNext();			
+			
 		}
     }
-	
+	*/
 
 	/**
 	 * This method update the UI Score and Turns. 
@@ -264,19 +270,26 @@ public class GameActivity extends Activity implements OnClickListener {
     @Override
     public void onBackPressed() 
     {
-    	//Emulate the progressDialog.setCancelable(false) behavior
-    	//If the first view is being shown
-    	if(viewSwitcher.getDisplayedChild() == 0)
-    	{
-    		//Do nothing
-    		return;
-    	}
-    	else
-    	{
-    		//Finishes the current Activity
-    		super.onBackPressed();
-    		mGame.release();
-    	}
-    }               
+    	//Finishes the current Activity
+    	super.onBackPressed();
+    	mGame.release();   	
+    }       
+    
+    @Override
+    public void onPause() {
+    	super.onPause();
+    	if ( !(mGame.getState() == GameView.STOPPED) ) {
+    		mGame.pause();
+    	}    	
+    }
+    
+    @Override
+    public void onResume() {
+    	super.onResume();
+  	    if (mGame.getState() == GameView.PAUSED) {
+       	    mGame.resume();	
+   	    }
+    }
+	
 	
 }

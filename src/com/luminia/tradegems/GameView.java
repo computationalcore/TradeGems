@@ -16,16 +16,12 @@ package com.luminia.tradegems;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-import java.util.regex.Pattern;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -37,6 +33,8 @@ import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+
+import com.luminia.tradegems.GameSound;
 
 /**
 * This Class represents the Main Game Controller.
@@ -61,6 +59,14 @@ public class GameView extends ViewGroup implements OnClickListener {
 	public final static int RED_GEM = 0;
 	public final static int GREEN_GEM = 1;
 	public final static int BLUE_GEM = 2;
+	
+	public final static int LOADING = 0;
+	public final static int RUNNING = 1;
+	public final static int PAUSED = 2;
+	public final static int LAST_SECONDS = 3;
+	public final static int STOPPED = 4;
+	
+	private volatile int mGameState = LOADING;
 	
 	//Array that stores the IDs of three different gem images 
 	//(they are set in the init() method
@@ -104,7 +110,8 @@ public class GameView extends ViewGroup implements OnClickListener {
 	//TODO: Set this back to 60 seconds. 1000 milliseconds is just for debug
 	// Nelson R. Perez
 	private long mGameTimer = 20000;
-
+	
+	
 	//CountDown Timer object (the class is defined here)
 	private GameCountDownTimer mGameCountDownTimer;
 	
@@ -113,14 +120,12 @@ public class GameView extends ViewGroup implements OnClickListener {
 	
 	private GameSound mSound;
 	
-	private volatile Boolean isLastSeconds = false;
 	
 	/**
 	 * This constructor is called when the View is instantiated from XML (Required)
 	 */
 	public GameView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		Log.i(TAG,"GameView");
 		init();
 	}
 
@@ -128,8 +133,7 @@ public class GameView extends ViewGroup implements OnClickListener {
 	 * This constructor is required when the View is instantiated programmatically (Not used in this game)
 	 */
 	public GameView(Context context) {
-		super(context);
-		Log.i(TAG,"GameView");
+		super(context);		
 		init();
 	}
 
@@ -139,6 +143,9 @@ public class GameView extends ViewGroup implements OnClickListener {
 	 * Called inside the class constructor.  
 	 */
 	private void init() {
+		//Set game state
+		mGameState = LOADING;
+		Log.i(TAG,"GameView");
 		Log.d(TAG,"init");
 		mSound = new GameSound(this.getContext());
 		
@@ -162,12 +169,24 @@ public class GameView extends ViewGroup implements OnClickListener {
 	public void pause() {
 		mGameCountDownTimer.cancel();
 		mSound.pauseGameMusic();
+		try{
+			mSound.stopLastSeconds();
+		}
+		finally {}
+		//Set game state
+		mGameState = PAUSED; 
 	}
 	
 	public void resume() {
 		mGameCountDownTimer = new GameCountDownTimer(mGameTimer, UPDATE_UI_TIMER);
 		mGameCountDownTimer.start();
 		mSound.resumeGameMusic();
+		//Set game state
+		mGameState = RUNNING;
+	}
+	
+	public int getState(){
+		return mGameState;
 	}
 	
 	
@@ -204,10 +223,11 @@ public class GameView extends ViewGroup implements OnClickListener {
 		mGameCountDownTimer = new GameCountDownTimer(mGameTimer, UPDATE_UI_TIMER);
 	}
 	
-	public void startGame() {
-		
+	public void startGame() {		
 		mGameCountDownTimer.start();
 		mSound.playGameMusic();
+		//Set game state
+		mGameState = RUNNING;
 	}
 	
 	public class GameCountDownTimer extends CountDownTimer{
@@ -218,12 +238,9 @@ public class GameView extends ViewGroup implements OnClickListener {
 	 
 	    @Override
 	    public void onFinish() {
-	    	
-	    	mSound.stopLastSeconds();
-	    	mSound.stopGameMusic();
-	    	
-	    	mSound.release();
-	    	
+	    	mGameState = STOPPED;
+	    	mSound.stopLastSeconds();   	
+	    	mSound.release();	    	
 	    	mGameActivity.endGame();
 	    }
 	 
@@ -232,16 +249,15 @@ public class GameView extends ViewGroup implements OnClickListener {
 	    	mGameTimer = millisUntilFinished;
 	        mGameActivity.updateTimer(millisUntilFinished);
 	        
-	        if (mGameTimer <= 10000 && !isLastSeconds) {
-	        	mSound.playLastSeconds();
+	        if (mGameTimer <= 10000 && (mGameState == RUNNING) ) {
+	        	mGameState = LAST_SECONDS;
+	        	GameView.this.mSound.playLastSeconds();
 	        	mGameActivity.lastSecond(true);
-	        	isLastSeconds = true;
 	        }
-	        
-	        if (mGameTimer >10000 && isLastSeconds) {
-	        	mSound.stopLastSeconds();
+	        if (mGameTimer >10000 && (mGameState == LAST_SECONDS) ) {
+	        	mGameState = RUNNING;
+	        	GameView.this.mSound.stopLastSeconds();
 	        	mGameActivity.lastSecond(false);
-	        	isLastSeconds = false;
 	        }
 	    }
 	}
@@ -587,6 +603,7 @@ public class GameView extends ViewGroup implements OnClickListener {
 		//If only one of them are completed
 		else { 
 				mScoreMultiplier += 1;
+				Log.i(TAG,"Multiplier: "+mScoreMultiplier);
 		}
 
 	}

@@ -1,7 +1,13 @@
 package com.luminia.tradegems;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
+import android.support.v4.app.FragmentActivity;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -9,6 +15,7 @@ import android.media.SoundPool;
 
 import com.luminia.tradegems.GamePreferences;
 
+@SuppressLint("UseSparseArrays")
 public class GameSound{
 	
 	public static final int SWAP = 1;
@@ -17,6 +24,7 @@ public class GameSound{
 	public static final int END = 4;
 	
 	private static MediaPlayer mMusicPlayer;
+	
 	
 	private GamePreferences mGamePreferences;
 	private boolean mSound;
@@ -28,19 +36,27 @@ public class GameSound{
 	//will use the sound class to play sounds
 	private Context mContext;
 
+	/*
+	 * Constructor. Start the instance with the all sounds needed for an activity/screen loaded.
+	 * 
+	 * @param context This reference is used to store the context of the calling 
+	 * object that will use the sounGd class to play sounds
+	 */
 	public GameSound(Context context) {
+		
 		mContext = context;
 		
-		//Get saound state from User Preferences
+	
+		//Get sound state from User Preferences
 		mGamePreferences = new GamePreferences(context);
 		mSound = mGamePreferences.getSoundState();
-		
-		//Init SoundPool
+		//Start SoundPool with main game effects
 		this.init();
 		
 	    // the music that is played at the game 
 	    // loop it when ended
-	    mMusicPlayer = MediaPlayer.create(context, R.raw.game_music);
+		
+	    mMusicPlayer = MediaPlayer.create(context, R.raw.shades_of_spring );
     	mMusicPlayer.setLooping(true);
 	}
 	
@@ -93,7 +109,7 @@ public class GameSound{
 		mGamePreferences.setSoundState(mSound);
 	}
 	
-	
+		
 	public void playGameMusic() {
 		if (!mSound) return;
 	    if (!mMusicPlayer.isPlaying()) {
@@ -107,7 +123,11 @@ public class GameSound{
 	
 	public void stopGameMusic(){
 		if (!mSound) return;
-		mMusicPlayer.stop();
+		try{
+			mMusicPlayer.stop();
+		}
+		finally{
+		}
 	}
 	
 	public void pauseGameMusic() {
@@ -159,5 +179,17 @@ public class GameSound{
 	    mMusicPlayer.stop();
 	    mMusicPlayer.release();
 	}
+
+	public static void playMusic(Context context, int musicId) {
+		mMusicPlayer = MediaPlayer.create(context, musicId);
+	    mMusicPlayer.setLooping(true);
+	    //the game music have 90% of the current volume
+	    mMusicPlayer.seekTo(0);
+	    mMusicPlayer.start();	    
+	}
+	public static void stopMusic() {
+		mMusicPlayer.stop();
+	}
+	
 
 }

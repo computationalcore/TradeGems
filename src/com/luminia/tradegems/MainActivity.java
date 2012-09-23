@@ -31,6 +31,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.luminia.tradegems.GameSound;
+
 public class MainActivity extends FragmentActivity implements OnClickListener, LocationListener{
 	
 	public final static String SERVICE_URL = "http://trade-gems.appspot.com/";
@@ -54,6 +56,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 	public static final String KEY_PARENT = "parent_key";
 	
 
+	private int mMusicResource = R.raw.dispersion_relation;
 	private MyDBAdapter dbAdapter;
 	private Button playGameButton;
 	private Button highScoreButton;
@@ -61,6 +64,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 	private Button topTenButton;
 	private Button usersOfGameButton;
 	private Button locationButton;
+			
 	
 	// Location related attributes
 	LocationManager mLocationManager;
@@ -90,7 +94,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 		usersOfGameButton.setOnClickListener(this);
 		locationButton.setOnClickListener(this);
 		
+		
 		dbAdapter = MyDBAdapter.getInstance(this);
+		
+		//Play music for this Activity
+		//GameSound.playMusic(getApplicationContext(), R.raw.no_good_layabout);
+		
 		checkAccounts();
 		detectUserLocation();
     }
@@ -262,4 +271,16 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 			return currentAddress;
 		}
 	}
+	
+    @Override
+    public void onPause() {
+    	super.onPause();
+    	GameSound.stopMusic();
+    }
+    
+    @Override
+    public void onResume() {
+    	super.onPause();
+    	GameSound.playMusic(getApplicationContext(), mMusicResource);
+    }
 }
