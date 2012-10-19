@@ -1,69 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center"
-    android:padding="20px"
-    android:background="@drawable/main_background"
-    >
-    
+    android:padding="20dp"
+    android:background="@drawable/main_background">
+
 	<Button
 		android:id="@+id/playGameButton"
-	    android:layout_width="wrap_content" 
-	    android:layout_height="wrap_content"
-	    android:text="@string/play_game"
-	    android:background="@drawable/nine_patch"
-	    android:textSize="24px"
-	    android:textStyle="bold"
-    />
+		style="@style/MainMenuButtons"
+	    android:text="@string/play_game"/>
     
     <Button
     	android:id="@+id/highScoreButton"
-	    android:layout_width="wrap_content" 
-	    android:layout_height="wrap_content"
-	    android:text="@string/view_highscores"
-	    android:background="@drawable/nine_patch"
-	    android:textSize="24px"
-	    android:textStyle="bold"
-    />
-    
-    <Button
-    	android:id="@+id/aboutButton"
-	    android:layout_width="wrap_content" 
-	    android:layout_height="wrap_content"
-	    android:text="@string/view_about"
-	    android:background="@drawable/nine_patch"
-	    android:textSize="24px"
-	    android:textStyle="bold"
-    />
+    	style="@style/MainMenuButtons"
+	    android:text="@string/view_highscores"/>
     
 	<Button
 		android:id="@+id/viewTopTen"
-	    android:layout_width="wrap_content" 
-	    android:layout_height="wrap_content"
-	    android:background="@drawable/nine_patch"
-	    android:textSize="24px"
-	    android:textStyle="bold"
-	    android:text="View Top Ten Scores"
-	/>
-	<Button
-		android:id="@+id/usersOfGame"
-		android:layout_width="wrap_content" 
-	    android:layout_height="wrap_content"
-	    android:background="@drawable/nine_patch"
-	    android:textSize="24px"
-	    android:textStyle="bold"
-	    android:text="Views Users Of Game"
-	/>
+		style="@style/MainMenuButtons"
+	    android:text="@string/view_top_ten_scores"/>
+	
 	<Button
 		android:id="@+id/viewLocation"
-		android:layout_width="wrap_content" 
-	    android:layout_height="wrap_content"
-	    android:background="@drawable/nine_patch"
-	    android:textSize="24px"
-	    android:textStyle="bold"
-	    android:text="View Location Of Scores"
-	/>
-    
+		style="@style/MainMenuButtons"	    
+		android:text="@string/view_location_of_scores"/>
+	
+	<Button
+    	android:id="@+id/aboutButton"
+    	style="@style/MainMenuButtons"
+	    android:text="@string/view_about"/>
 </LinearLayout>

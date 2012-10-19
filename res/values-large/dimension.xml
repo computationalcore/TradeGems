@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Dimensions for the large bucket -->
 <resources>
+    <!-- Main menu dimensions -->
+    <dimen name="main_menu_button_width">220dp</dimen>
+    <dimen name="main_menu_text_size">18sp</dimen>
+    
     <dimen name="large_text_size">50sp</dimen>
 	<dimen name="medium_text_size">20sp</dimen>
 	<dimen name="small_text_size">15sp</dimen>

@@ -1,13 +1,8 @@
 package com.luminia.tradegems;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
-
-import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -22,6 +17,7 @@ public class GameSound{
 	public static final int ALL_MATCH = 2;
 	public static final int LAST_SECONDS = 3;
 	public static final int END = 4;
+	private static final String TAG = "GameSound";
 	
 	private static MediaPlayer mMusicPlayer;
 	
@@ -117,6 +113,7 @@ public class GameSound{
 		    float volume = getVolume() * 0.9f;
 	    	mMusicPlayer.seekTo(0);
 	    	mMusicPlayer.setVolume(volume, volume);
+	    	Log.i(TAG,"player.start");
 	    	mMusicPlayer.start();
 	    }
 	}
@@ -124,6 +121,7 @@ public class GameSound{
 	public void stopGameMusic(){
 		if (!mSound) return;
 		try{
+	    	Log.i(TAG,"player.stop");
 			mMusicPlayer.stop();
 		}
 		finally{
@@ -131,6 +129,8 @@ public class GameSound{
 	}
 	
 	public void pauseGameMusic() {
+		Log.d(TAG,"pauseGameMusic");
+    	Log.i(TAG,"player.pause");
 		mMusicPlayer.pause();
 	}
 	
@@ -141,6 +141,7 @@ public class GameSound{
 		    float volume = getVolume() * 0.7f;
 	    	mMusicPlayer.seekTo(mMusicPlayer.getCurrentPosition());
 	    	mMusicPlayer.setVolume(volume, volume);
+	    	Log.i(TAG,"player.start");
 	    	mMusicPlayer.start();
 	    } 
 	}
@@ -174,20 +175,46 @@ public class GameSound{
 		playSound(END, 0);
 	}
 	
+	/**
+	 * Old deprecated method
+	 * The MediaPlayer is released through a call to the static method releaseMediaPlayer now
+	 * TODO: properly release the SoundPool object
+	 */
 	public void release() {
 	    mSoundPool.release();
 	    mMusicPlayer.stop();
 	    mMusicPlayer.release();
+    	Log.i(TAG,"player.stop");
+    	Log.i(TAG,"player.release");
 	}
 
+	/**
+	 * Method call that will release the media player
+	 */
+	public static void releaseMediaPlayer(){
+		mMusicPlayer.release();
+	}
+	
+	/**
+	 * Starts the background music
+	 * @param context Application context
+	 * @param musicId The id from the raw resource which is to be played
+	 */
 	public static void playMusic(Context context, int musicId) {
 		mMusicPlayer = MediaPlayer.create(context, musicId);
 	    mMusicPlayer.setLooping(true);
 	    //the game music have 90% of the current volume
 	    mMusicPlayer.seekTo(0);
+    	Log.i(TAG,"player.start");
 	    mMusicPlayer.start();	    
 	}
+	
+	/**
+	 * Stops any background music currently playing
+	 */
 	public static void stopMusic() {
+		Log.d(TAG,"pauseMusic");
+    	Log.i(TAG,"player.stop");
 		mMusicPlayer.stop();
 	}
 	

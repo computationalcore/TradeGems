@@ -163,14 +163,18 @@ public class GameView extends ViewGroup implements OnClickListener {
 	 */
 	public void release() {
 		mGameCountDownTimer.cancel();
+		Log.w(TAG,"GameView.release");
 		mSound.release();
 	}
 	
 	public void pause() {
 		mGameCountDownTimer.cancel();
-		mSound.pauseGameMusic();
 		try{
+			mSound.pauseGameMusic();
 			mSound.stopLastSeconds();
+		}catch(IllegalStateException e){
+			Log.e(TAG,"IllegalStateException");
+			Log.e(TAG,"Msg: "+e.getMessage());
 		}
 		finally {}
 		//Set game state
@@ -238,8 +242,10 @@ public class GameView extends ViewGroup implements OnClickListener {
 	 
 	    @Override
 	    public void onFinish() {
+	    	Log.w(TAG,"onFinish");
 	    	mGameState = STOPPED;
-	    	mSound.stopLastSeconds();   	
+	    	mSound.stopLastSeconds();
+	    	Log.w(TAG,"mSound.release");
 	    	mSound.release();	    	
 	    	mGameActivity.endGame();
 	    }

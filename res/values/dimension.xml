@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Main menu dimensions -->
+    <dimen name="main_menu_button_width">220dp</dimen>
+    <dimen name="main_menu_text_size">18sp</dimen>
+    
     <!-- General text sizes -->
     <dimen name="large_text_size">50sp</dimen>
 	<dimen name="medium_text_size">18sp</dimen>

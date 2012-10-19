@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Trade Gems</string>
-    
+    <!-- General Strings -->
+    <string name="app_name">Trade Gems</string>    
     <string name="luminia_logo">Luminia Logo</string>
     
-    <string name="play_game">Play Trade Gems</string>
-    
+	<!-- Main menu strings -->
+	<string name="play_game">Play Trade Gems</string>
+	<string name="view_top_ten_scores">View Top Ten Scores</string>
+	<string name="view_location_of_scores">View Location Of Scores</string>
+	<string name="view_about">About</string>
+	<string name="view_highscores">View High Scores</string>  
+	
+	    
     <!-- Loading Screen -->
     <string name="loading_text">Loading, please wait(…,&#8230;)</string>
     <string name="progress_text">Progress: 0%</string>
@@ -32,11 +37,8 @@
 	<string name="cancel_button">No</string>
 	
 	<!-- About Strings -->
-	<string name="view_about">About</string>
-    <string name="about_text">To play Swap Gems, select any two gems to trade place. If a row or a column of gems is all the same color, they are whisked away and your score is increased. See how many gems you can remove in 10 turns.</string>
+    <string name="about_text">To play Trade Gems, select any two gems to trade place. If a row or a column of gems is all the same color, they are whisked away and your score is increased. See how many gems you can remove in 10 turns.</string>
     <string name="about_text_title">About Swap Gems</string>
-	
-	<string name="view_highscores">View High Scores</string>  
     
 	<!-- Select Account dialog strings -->
 	<string name="select_account_dialog_title">Please select an account</string>

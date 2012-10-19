@@ -124,8 +124,7 @@ public class HighScoreView extends View {
 
 		int index = 0;
 		for (TopScoreReport score : highscores) {
-			canvas.drawText(score.getAccountName(), 40, 150 + index * 30,
-					scorePaint);
+//			canvas.drawText(score.getAccountName(), 40, 150 + index * 30,scorePaint);
 			canvas.drawText("" + score.getScore(), width - 115,
 					150 + index * 30, scorePaint);
 

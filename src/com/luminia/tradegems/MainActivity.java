@@ -11,6 +11,7 @@ import com.luminia.tradegems.widgets.SelectAccountDialog;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -62,7 +63,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 	private Button highScoreButton;
 	private Button aboutButton;
 	private Button topTenButton;
-	private Button usersOfGameButton;
 	private Button locationButton;
 			
 	
@@ -70,6 +70,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 	LocationManager mLocationManager;
 	Location mCurrentLocation;
 	ReverseGeocodeLookupTask reverseGeocodeLookupTask = new ReverseGeocodeLookupTask();
+	
+	/* Debug variable, remove this! */
+	private long timestamp;
 	
 	/** Called when the activity is first created. */
     @Override
@@ -83,7 +86,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 		aboutButton = (Button) findViewById(R.id.aboutButton);
 		
 		topTenButton = (Button) findViewById(R.id.viewTopTen);
-		usersOfGameButton = (Button) findViewById(R.id.usersOfGame);
 		locationButton = (Button) findViewById(R.id.viewLocation);
 
 		playGameButton.setOnClickListener(this);
@@ -91,7 +93,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 		aboutButton.setOnClickListener(this);
 		
 		topTenButton.setOnClickListener(this);
-		usersOfGameButton.setOnClickListener(this);
 		locationButton.setOnClickListener(this);
 		
 		
@@ -144,14 +145,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 		} else if (button == topTenButton) {
 			Intent intent = new Intent(this, TopTenActivity.class);
 			startActivity(intent);
-		} else if (button == usersOfGameButton) {
-			Intent intent = new Intent(this, UsersOfGameActivity.class);
-			startActivity(intent);
 		} else if (button == locationButton) {
 			Intent intent = new Intent(this, UsersLocationActivity.class);
 			startActivity(intent);
 		}
-		
 		//unknown button.
 	}
     
@@ -172,6 +169,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
      * with the gameplay.
      */
     private void detectUserLocation(){
+    	timestamp = System.currentTimeMillis();
     	mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		Criteria criteria = new Criteria();
 		criteria.setAccuracy(Criteria.ACCURACY_FINE);
@@ -204,6 +202,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 //		Log.d(TAG,"Provider: "+location.getProvider());
 		this.reverseGeocodeLookupTask.execute();
 		mLocationManager.removeUpdates(this);
+		long delta = System.currentTimeMillis() - timestamp;
+		Log.d(TAG,"Location took: "+delta+" milliseconds");
 	}
 
 	@Override
@@ -251,10 +251,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 						
 						if(city != null && state != null && country != null) break;
 					}
-//					Log.d(TAG,"Cidade: "+city);
-//					Log.d(TAG,"Estado: "+state);
-//					Log.d(TAG,"Country: "+country);					
-
 					editor.putString(KEY_CITY, city);
 					editor.putString(KEY_STATE, state);
 					editor.putString(KEY_COUNTRY, country);
@@ -283,4 +279,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
     	super.onPause();
     	GameSound.playMusic(getApplicationContext(), mMusicResource);
     }
+
+	@SuppressLint("ParserError")
+	@Override
+	protected void onDestroy() {
+		Log.d(TAG,"onDestroy");
+		GameSound.releaseMediaPlayer();
+		super.onDestroy();
+	}
 }
