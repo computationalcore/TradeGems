@@ -3,6 +3,7 @@
     <!-- Main menu dimensions -->
     <dimen name="main_menu_button_width">220dp</dimen>
     <dimen name="main_menu_text_size">18sp</dimen>
+    <dimen name="main_menu_button_separation">10dp</dimen>
     
     <!-- General text sizes -->
     <dimen name="large_text_size">50sp</dimen>

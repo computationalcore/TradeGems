@@ -6,6 +6,7 @@
         <item name="android:textSize">@dimen/main_menu_text_size</item>
         <item name="android:background">@drawable/nine_patch</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:layout_margin">@dimen/main_menu_button_separation</item>
     </style>
     <style name="TradeGemsText">
         <item name="android:layout_width">wrap_content</item>

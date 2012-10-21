@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-	<TextView android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:text="@string/top_ten_title"/>
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_top_ten"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="10dp">
+
 	<ListView android:id="@+id/TopTenList"
 	    android:layout_width="match_parent"
-	    android:layout_height="0dp"
-	    android:divider="#b5b5b5"
+	    android:layout_height="0dip"
+	    android:layout_marginTop="80dp"
+	    android:padding="10dp"
+	    android:divider="#40FFb5b5"
 	    android:dividerHeight="1dp"
 	    android:layout_weight="1"
-	    android:listSelector="@drawable/list_selector">
+	    android:background="@drawable/top_ten_line"
+	    android:listSelector="#00000000"
+	    android:cacheColorHint="#00000000">
 	</ListView>
 </LinearLayout>

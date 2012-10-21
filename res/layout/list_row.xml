@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/list_selector"
     android:orientation="horizontal"
     android:padding="5dip" >
  
@@ -12,7 +11,6 @@
         android:layout_height="wrap_content"
         android:padding="3dip"
         android:layout_alignParentRight="true"
-        android:background="@drawable/image_bg"
         android:layout_centerVertical="true"
         android:layout_marginRight="5dip">
         <ImageView
@@ -20,7 +18,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/flag"/>
- 
     </LinearLayout>
  
     <!-- Name of player -->
@@ -31,7 +28,7 @@
         android:layout_toLeftOf="@+id/thumbnail"
         android:text="Player's name"
         android:layout_alignParentLeft="true"
-        android:textColor="#040404"
+        android:textColor="#FFFFFF"
         android:typeface="sans"
         android:textSize="15dip"
         android:textStyle="bold"/>
@@ -42,7 +39,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/name"
-        android:textColor="#343434"
+        android:textColor="#FFFFFF"
         android:textSize="13dip"
         android:layout_marginTop="1dip"
         android:layout_toLeftOf="@+id/thumbnail"

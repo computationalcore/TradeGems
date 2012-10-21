@@ -60,11 +60,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 	private int mMusicResource = R.raw.dispersion_relation;
 	private MyDBAdapter dbAdapter;
 	private Button playGameButton;
-	private Button highScoreButton;
 	private Button aboutButton;
-	private Button topTenButton;
-	private Button locationButton;
-			
+	private Button topTenButton;			
 	
 	// Location related attributes
 	LocationManager mLocationManager;
@@ -82,20 +79,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 		setContentView(R.layout.main);
 
 		playGameButton = (Button) findViewById(R.id.playGameButton);
-		highScoreButton = (Button) findViewById(R.id.highScoreButton);
-		aboutButton = (Button) findViewById(R.id.aboutButton);
-		
+		aboutButton = (Button) findViewById(R.id.aboutButton);		
 		topTenButton = (Button) findViewById(R.id.viewTopTen);
-		locationButton = (Button) findViewById(R.id.viewLocation);
-
 		playGameButton.setOnClickListener(this);
-		highScoreButton.setOnClickListener(this);
-		aboutButton.setOnClickListener(this);
-		
+		aboutButton.setOnClickListener(this);		
 		topTenButton.setOnClickListener(this);
-		locationButton.setOnClickListener(this);
-		
-		
+
 		dbAdapter = MyDBAdapter.getInstance(this);
 		
 		//Play music for this Activity
@@ -136,17 +125,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 		if (button == playGameButton) {
 			Intent intent = new Intent(this, GameActivity.class);
 			startActivity(intent);
-		} else if (button == highScoreButton) {
-			Intent intent = new Intent(this, HighScoreActivity.class);
-			startActivity(intent);
 		} else if (button == aboutButton) {
 			Intent intent = new Intent(this, AboutActivity.class);
 			startActivity(intent);
 		} else if (button == topTenButton) {
 			Intent intent = new Intent(this, TopTenActivity.class);
-			startActivity(intent);
-		} else if (button == locationButton) {
-			Intent intent = new Intent(this, UsersLocationActivity.class);
 			startActivity(intent);
 		}
 		//unknown button.
