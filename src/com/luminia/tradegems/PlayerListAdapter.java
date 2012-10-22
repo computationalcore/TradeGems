@@ -61,6 +61,7 @@ public class PlayerListAdapter extends BaseAdapter {
 //			vi.setBackgroundResource(R.drawable.rounded_corners_bottom);
 //		}
 		try {
+//			Log.i(TAG,"JsonObject: "+mData);
 			JSONObject data = (JSONObject) mData.get(position);
 			name = data.getString("nickname");
 			score = data.getString("score");
@@ -71,20 +72,21 @@ public class PlayerListAdapter extends BaseAdapter {
 		TextView playerNameTv = (TextView) vi.findViewById(R.id.name);
 		TextView scoreTv = (TextView) vi.findViewById(R.id.score);
 		ImageView flagIv = (ImageView) vi.findViewById(R.id.flag);
+		TextView pos = (TextView) vi.findViewById(R.id.position);
 		if(name != null)
 			playerNameTv.setText(name.toString());
 		if(score != null)
 			scoreTv.setText(score.toString());
+		if(pos != null)
+			pos.setText(""+position+" - ");
 		if(country != null){
 			String flagResourceName = mCountry2Code.get(country);
-			Log.d(TAG,"Country: "+country+", flagResourceName: "+flagResourceName);
 			if(flagResourceName != null){
 				// This is needed because the country code for (Google it..) is "do"
 				// which cannot be the name of a drawable resource since it is a reserved
 				// word in java, so it had to be renamed to "do2"
 				if(flagResourceName.equals("do")) flagResourceName.concat("2");
 				int flagResource = mContext.getResources().getIdentifier(flagResourceName,"drawable",mContext.getPackageName());
-//				flagIv = (ImageView) mInflater.inflate(flagResource, null);
 				flagIv.setImageResource(flagResource);
 			}
 		}
@@ -103,7 +105,6 @@ public class PlayerListAdapter extends BaseAdapter {
 			value = locale.getCountry().toLowerCase();
 			if(!key.equals("") && !value.equals("")){
 				mCountry2Code.put(key, value);
-				Log.d(TAG,"Country: "+key+", Code: "+value);				
 			}
 		}
 	}

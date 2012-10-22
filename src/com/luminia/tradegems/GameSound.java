@@ -113,7 +113,6 @@ public class GameSound{
 		    float volume = getVolume() * 0.9f;
 	    	mMusicPlayer.seekTo(0);
 	    	mMusicPlayer.setVolume(volume, volume);
-	    	Log.i(TAG,"player.start");
 	    	mMusicPlayer.start();
 	    }
 	}
@@ -121,7 +120,6 @@ public class GameSound{
 	public void stopGameMusic(){
 		if (!mSound) return;
 		try{
-	    	Log.i(TAG,"player.stop");
 			mMusicPlayer.stop();
 		}
 		finally{
@@ -129,8 +127,6 @@ public class GameSound{
 	}
 	
 	public void pauseGameMusic() {
-		Log.d(TAG,"pauseGameMusic");
-    	Log.i(TAG,"player.pause");
 		mMusicPlayer.pause();
 	}
 	
@@ -141,7 +137,6 @@ public class GameSound{
 		    float volume = getVolume() * 0.7f;
 	    	mMusicPlayer.seekTo(mMusicPlayer.getCurrentPosition());
 	    	mMusicPlayer.setVolume(volume, volume);
-	    	Log.i(TAG,"player.start");
 	    	mMusicPlayer.start();
 	    } 
 	}
@@ -184,8 +179,6 @@ public class GameSound{
 	    mSoundPool.release();
 	    mMusicPlayer.stop();
 	    mMusicPlayer.release();
-    	Log.i(TAG,"player.stop");
-    	Log.i(TAG,"player.release");
 	}
 
 	/**
@@ -205,7 +198,6 @@ public class GameSound{
 	    mMusicPlayer.setLooping(true);
 	    //the game music have 90% of the current volume
 	    mMusicPlayer.seekTo(0);
-    	Log.i(TAG,"player.start");
 	    mMusicPlayer.start();	    
 	}
 	
@@ -213,8 +205,6 @@ public class GameSound{
 	 * Stops any background music currently playing
 	 */
 	public static void stopMusic() {
-		Log.d(TAG,"pauseMusic");
-    	Log.i(TAG,"player.stop");
 		mMusicPlayer.stop();
 	}
 	

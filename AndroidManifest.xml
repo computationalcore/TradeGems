@@ -40,7 +40,8 @@
 		
 		<activity android:name=".AboutActivity" />		
 		
-		<activity android:name=".TopTenActivity"  
+		<activity android:name=".TopTenActivity"
+		    android:screenOrientation="portrait"
 		    android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
 		
 		<activity android:name=".UsersOfGameActivity"  android:label="Top Scores For User of Game" />

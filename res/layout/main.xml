@@ -4,7 +4,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center"
-    android:padding="20dp"
     android:background="@drawable/main_background">
 
 	<Button

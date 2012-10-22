@@ -161,8 +161,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 		criteria.setPowerRequirement(Criteria.POWER_MEDIUM);
 		String providerName = mLocationManager.getBestProvider(criteria, true);
 		Log.d(TAG,"Provider selected based on given criteria: "+providerName);
-//		locationManager.requestSingleUpdate(criteria, this, null);
-		mLocationManager.requestLocationUpdates(providerName, 10000, 10, this);
+		if(providerName != null)
+			mLocationManager.requestLocationUpdates(providerName, 10000, 10, this);
+		else
+			Log.w(TAG,"No provider");
     }
 
 	@Override
@@ -179,10 +181,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 		editor.putString(KEY_NICKNAME,null);
 
 		editor.commit();
-//		Log.d(TAG,"Latitude: "+location.getLatitude());
-//		Log.d(TAG,"Longitude: "+location.getLongitude());
-//		Log.d(TAG,"Accuracy: "+location.getAccuracy());
-//		Log.d(TAG,"Provider: "+location.getProvider());
+		Log.d(TAG,"Latitude: "+location.getLatitude());
+		Log.d(TAG,"Longitude: "+location.getLongitude());
+		Log.d(TAG,"Accuracy: "+location.getAccuracy());
+		Log.d(TAG,"Provider: "+location.getProvider());
 		this.reverseGeocodeLookupTask.execute();
 		mLocationManager.removeUpdates(this);
 		long delta = System.currentTimeMillis() - timestamp;
