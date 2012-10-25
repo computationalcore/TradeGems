@@ -133,19 +133,26 @@ public class MyDBAdapter {
 		}
 	}
 	
+	/**
+	 * Returns the default account.
+	 * If there are no accounts in this device, for now we'll just send a default one. 
+	 * In the future we should ask the user to enter one. But still he/she has to have
+	 * the choice of not disclosing his/her personal information. In fact, this will happen
+	 * if when shown the dialog to choice from multiple accounts the user simply presses the
+	 * back button 
+	 * */
 	public GameAccount getDefaultAccount(){
 		if(!this.isOpen())
 			this.open();
 		String[] columns = {COL_EMAIL};
 		String selection = ""+COL_DEFAULT+"=1";
 		Cursor cursor = null;
-		GameAccount account = null;
+		GameAccount account = new GameAccount("anon@luminiasoft.com");
 		mydb.beginTransaction();
 		try{
 			cursor = mydb.query(TABLE_ACCOUNTS, columns, selection, null, null, null, null);
 			if(cursor != null && cursor.moveToFirst()){
-				account = new GameAccount();
-				account.setEmail(cursor.getString(0));
+				account = new GameAccount(cursor.getString(0));
 			}
 		}catch(SQLException e){
 			Log.e(TAG,"SQLException caught. Msg: "+e.getMessage());
@@ -193,24 +200,21 @@ public class MyDBAdapter {
 		String[] columns = {KEY_ID};
 		try {
 			cursor = mydb.query(TABLE_ACCOUNTS, columns, COL_EMAIL+"=\""+currentScore.getAccountName()+"\"",null,null,null,null);
-			if(!cursor.moveToFirst()){
-				Log.e(TAG,"Could not find an account id for account name: "+currentScore.getAccountName());
-				return;
+			if(cursor.moveToFirst()){
+				accountId = cursor.getInt(0);
+				ContentValues contentValues = new ContentValues();
+				contentValues.put(COL_SCORE,currentScore.getScore().longValue());
+				contentValues.put(COL_ACCOUNT_ID, accountId);
+				mydb.beginTransaction();
+				mydb.insertOrThrow(TABLE_SCORES, null, contentValues);
+				cursor.close();
+				mydb.endTransaction();
 			}else{
-				
+				Log.e(TAG,"Could not find an account id for account name: "+currentScore.getAccountName());				
 			}
-			accountId = cursor.getInt(0);
-			ContentValues contentValues = new ContentValues();
-			contentValues.put(COL_SCORE,currentScore.getScore().longValue());
-			contentValues.put(COL_ACCOUNT_ID, accountId);
-			mydb.beginTransaction();
-
-			mydb.insertOrThrow(TABLE_SCORES, null, contentValues);
 		}catch(SQLException e){
 			Log.e(TAG,"SQLException caught!. Msg: "+e.getMessage());
 		}finally{
-			cursor.close();
-			mydb.endTransaction();
 			this.close();
 		}
 	}

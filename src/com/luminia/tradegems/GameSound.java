@@ -28,6 +28,13 @@ public class GameSound{
 	private SoundPool mSoundPool;
 	private HashMap<Integer, Integer> mSoundPoolMap;
 	
+	/* 
+	 * This boolean variable will be turned to false after we release the sound pool
+	 * so that we can avoid some nasty IllegalStateExceptions 
+	 * Nelson R. Perez
+	 */
+	boolean isSoundPoolReady;
+	
 	//This reference is used to store the context of the calling object that
 	//will use the sound class to play sounds
 	private Context mContext;
@@ -68,6 +75,7 @@ public class GameSound{
 	    		 R.raw.last_seconds, 1));
 	    mSoundPoolMap.put(END, mSoundPool.load(mContext,
 	    		 R.raw.end, 1));
+	    isSoundPoolReady = true;
 	}
 	
 	private float getVolume() {
@@ -85,8 +93,10 @@ public class GameSound{
 	private void playSound(int sound, int loop) {
 	    
 		float volume = this.getVolume();
-	    /* Play the sound with the correct volume */
-	    mSoundPool.play(mSoundPoolMap.get(sound), volume, volume, 1, loop, 1f);     
+		if(isSoundPoolReady){
+		    /* Play the sound with the correct volume */
+		    mSoundPool.play(mSoundPoolMap.get(sound), volume, volume, 1, loop, 1f);     			
+		}
 	}
 	
 	private void stopSound(int sound) {
@@ -171,14 +181,13 @@ public class GameSound{
 	}
 	
 	/**
-	 * Old deprecated method
-	 * The MediaPlayer is released through a call to the static method releaseMediaPlayer now
-	 * TODO: properly release the SoundPool object
+	 * Releases the SoundPool
 	 */
 	public void release() {
 	    mSoundPool.release();
-	    mMusicPlayer.stop();
-	    mMusicPlayer.release();
+	    isSoundPoolReady = false;
+//	    mMusicPlayer.stop();
+//	    mMusicPlayer.release();
 	}
 
 	/**

@@ -8,11 +8,18 @@ package com.luminia.tradegems.database;
  * Right now the only information we care about is the user's email. But this might
  * be extended in future version.
  * 
- * @version 	1.00 08 Sep 2012
+ * @version 	0.10 08 Oct 2012
  * @author Nelson R. Perez - bilthon@gmail.com
  *
  */
 public class GameAccount {
+	
+	public GameAccount(){}
+	
+	public GameAccount(String e){
+		email = e;
+	}
+	
 	private String email;
 
 	public String getEmail() {

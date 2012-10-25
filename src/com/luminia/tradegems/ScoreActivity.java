@@ -167,8 +167,12 @@ public class ScoreActivity extends FragmentActivity implements OnClickListener {
 		}
 	}
 
+	/**
+	 * Creates a new TopScoreReport
+	 * @return a newly created TopScoreRecord with the default user account and the score
+	 */
 	private TopScoreReport makeScoreReport() {
-		this.mDBAdapter = MyDBAdapter.getInstance(this);
+		this.mDBAdapter = MyDBAdapter.getInstance(this);		
 		TopScoreReport score = new TopScoreReport();
 		score.setAccountName(mDBAdapter.getDefaultAccount().getEmail());
 		score.setScore(Long.parseLong(mCurrentScore.getText().toString()));

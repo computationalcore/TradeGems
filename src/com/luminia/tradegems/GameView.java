@@ -120,7 +120,6 @@ public class GameView extends ViewGroup implements OnClickListener {
 	
 	private GameSound mSound;
 	
-	
 	/**
 	 * This constructor is called when the View is instantiated from XML (Required)
 	 */
@@ -246,7 +245,8 @@ public class GameView extends ViewGroup implements OnClickListener {
 	    	mGameState = STOPPED;
 	    	mSound.stopLastSeconds();
 	    	Log.w(TAG,"mSound.release");
-	    	mSound.release();	    	
+	    	mSound.release();
+	    	GameSound.stopMusic();
 	    	mGameActivity.endGame();
 	    }
 	 
