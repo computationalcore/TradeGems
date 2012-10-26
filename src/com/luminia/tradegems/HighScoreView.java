@@ -67,7 +67,7 @@ public class HighScoreView extends View {
 				TopScoreReport.createDefaultScores());
 		try {
 			JSONArray jsonArray = new JSONArray(json);
-			highscores = TopScoreReport.toList(jsonArray);
+//			highscores = TopScoreReport.toList(jsonArray);
 		} catch (JSONException e) {
 			throw new RuntimeException(e);
 		}

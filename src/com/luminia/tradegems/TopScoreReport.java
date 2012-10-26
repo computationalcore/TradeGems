@@ -13,7 +13,6 @@
  */
 package com.luminia.tradegems;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -36,20 +35,20 @@ public class TopScoreReport extends Score {
 
 	}
 
-	public TopScoreReport(JSONObject jsonObject) throws JSONException {
-		if (jsonObject.has("nickname")) {
-			accountname = jsonObject.getString("nickname");
-		}
-		if (jsonObject.has("score")) {
-			score = jsonObject.getLong("score");
-		}
-		if (jsonObject.has("longitude")) {
-			longitude = jsonObject.getDouble("lon");
-		}
-		if (jsonObject.has("latitude")) {
-			latitude = jsonObject.getDouble("lat");
-		}
-	}
+//	public TopScoreReport(JSONObject jsonObject) throws JSONException {
+//		if (jsonObject.has("nickname")) {
+//			accountname = jsonObject.getString("nickname");
+//		}
+//		if (jsonObject.has("score")) {
+//			score = jsonObject.getLong("score");
+//		}
+//		if (jsonObject.has("longitude")) {
+//			longitude = jsonObject.getDouble("lon");
+//		}
+//		if (jsonObject.has("latitude")) {
+//			latitude = jsonObject.getDouble("lat");
+//		}
+//	}
 
 	public JSONObject toJSONObject() throws JSONException {
 		JSONObject result = new JSONObject();
@@ -92,22 +91,22 @@ public class TopScoreReport extends Score {
 		}
 	}
 
-	public static List<TopScoreReport> toList(JSONArray jsonArray) {
-		try {
-			List<TopScoreReport> result = new ArrayList<TopScoreReport>();
-			int length = jsonArray.length();
-			for (int i = 0; i < length; i++) {
-				JSONObject jsonObject = jsonArray.getJSONObject(i);
-				TopScoreReport score = new TopScoreReport(jsonObject);
-				result.add(score);
-			}
-
-			Collections.sort(result, new HighScoreComparator());
-			return result;
-		} catch (JSONException e) {
-			throw new RuntimeException(e);
-		}
-	}
+//	public static List<TopScoreReport> toList(JSONArray jsonArray) {
+//		try {
+//			List<TopScoreReport> result = new ArrayList<TopScoreReport>();
+//			int length = jsonArray.length();
+//			for (int i = 0; i < length; i++) {
+//				JSONObject jsonObject = jsonArray.getJSONObject(i);
+//				TopScoreReport score = new TopScoreReport(jsonObject);
+//				result.add(score);
+//			}
+//
+//			Collections.sort(result, new HighScoreComparator());
+//			return result;
+//		} catch (JSONException e) {
+//			throw new RuntimeException(e);
+//		}
+//	}
 
 	public static JSONArray toJSONArray(List<TopScoreReport> highscores) {
 		try {

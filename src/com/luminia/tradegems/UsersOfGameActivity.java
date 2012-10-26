@@ -122,20 +122,20 @@ public class UsersOfGameActivity extends Activity implements OnClickListener {
 		row.addView(scoreTitleView);
 
 		for (int i = 0; i < result.length(); i++) {
-			TopScoreReport highscore = new TopScoreReport(result.getJSONObject(i));
+//			TopScoreReport highscore = new TopScoreReport(result.getJSONObject(i));
 
 			row = new TableRow(this);
 			row.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
 					LayoutParams.FILL_PARENT));
 
 			TextView userView = new TextView(this);
-			userView.setText(highscore.getAccountName());
+//			userView.setText(highscore.getAccountName());
 			userView.setTextSize(14);
 			userView.setPadding(10, 2, 100, 2);
 			row.addView(userView);
 
 			TextView scoreView = new TextView(this);
-			scoreView.setText("" + highscore.getScore());
+//			scoreView.setText("" + highscore.getScore());
 			scoreView.setTextSize(14);
 			row.addView(scoreView);
 

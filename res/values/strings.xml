@@ -19,7 +19,7 @@
     <!-- Game Strings -->
     <string name="record_score_congrats">Record score!</string>
     <string name="record_score">Record score: </string>
-    <string name="score">Score: </string>
+    <string name="score">Current score: </string>
     <string name="turns">Turns: </string>
     
     <string name="pause">Pause</string>

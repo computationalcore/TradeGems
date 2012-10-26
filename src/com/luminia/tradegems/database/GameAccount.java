@@ -16,6 +16,10 @@ public class GameAccount {
 	
 	public GameAccount(){}
 	
+	/**
+	 * Constructor that takes the email as argument
+	 * @param e Email used to identify this account
+	 */
 	public GameAccount(String e){
 		email = e;
 	}

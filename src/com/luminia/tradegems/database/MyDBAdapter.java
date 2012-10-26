@@ -1,4 +1,6 @@
 package com.luminia.tradegems.database;
+import com.luminia.tradegems.MainActivity;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -121,14 +123,12 @@ public class MyDBAdapter {
 		contentValues.put(COL_DEFAULT,isDefault);
 		if(!this.isOpen())
 			this.open();
-		mydb.beginTransaction();
 		try{
 			mydb.insertOrThrow(TABLE_ACCOUNTS, null, contentValues);
 			mydb.setTransactionSuccessful();
 		}catch(SQLException ex){
 			Log.e(TAG,"SQLException caught!! Msg: "+ex.getMessage());
 		}finally{
-			mydb.endTransaction();
 			this.close();
 		}
 	}
@@ -147,7 +147,7 @@ public class MyDBAdapter {
 		String[] columns = {COL_EMAIL};
 		String selection = ""+COL_DEFAULT+"=1";
 		Cursor cursor = null;
-		GameAccount account = new GameAccount("anon@luminiasoft.com");
+		GameAccount account = new GameAccount(MainActivity.DEFAULT_EMAIL);
 		mydb.beginTransaction();
 		try{
 			cursor = mydb.query(TABLE_ACCOUNTS, columns, selection, null, null, null, null);
@@ -205,10 +205,7 @@ public class MyDBAdapter {
 				ContentValues contentValues = new ContentValues();
 				contentValues.put(COL_SCORE,currentScore.getScore().longValue());
 				contentValues.put(COL_ACCOUNT_ID, accountId);
-				mydb.beginTransaction();
 				mydb.insertOrThrow(TABLE_SCORES, null, contentValues);
-				cursor.close();
-				mydb.endTransaction();
 			}else{
 				Log.e(TAG,"Could not find an account id for account name: "+currentScore.getAccountName());				
 			}
@@ -216,6 +213,8 @@ public class MyDBAdapter {
 			Log.e(TAG,"SQLException caught!. Msg: "+e.getMessage());
 		}finally{
 			this.close();
+			if(!cursor.isClosed())
+				cursor.close();
 		}
 	}
 	
@@ -263,7 +262,6 @@ public class MyDBAdapter {
 		}
 		if(isStateSaved()) clearState();
 		ContentValues contentValues = new ContentValues();
-		mydb.beginTransaction();
 		try{
 			for(int i = 0; i < row; i++){
 				for(int j = 0; j < col; j++){
@@ -278,7 +276,6 @@ public class MyDBAdapter {
 			Log.e(TAG,"Exception while saving game state in database");
 			Log.e(TAG,"Msg: "+e.getMessage());
 		}finally{
-			mydb.endTransaction();
 			this.close();
 		}
 	}
@@ -293,14 +290,12 @@ public class MyDBAdapter {
 			this.open();
 		}
 		String statement = "DELETE * FROM "+TABLE_STATE;
-		mydb.beginTransaction();
 		try{
 			mydb.execSQL(statement);
 		}catch(SQLException e){
 			Log.e(TAG,"Exception while clearing the game state in database");
 			Log.e(TAG,"Msg: "+e.getMessage());
 		}finally{
-			mydb.endTransaction();
 			this.close();
 		}
 	}

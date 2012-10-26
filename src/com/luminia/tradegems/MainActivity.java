@@ -55,6 +55,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 	public static final String KEY_PROVIDER = "provider";
 	public static final String KEY_ACCURACY = "accuracy";
 	public static final String KEY_PARENT = "parent_key";
+	public static final String DEFAULT_NICKNAME = "user";
+	public static final String DEFAULT_EMAIL = "anon@luminiasoft.com";
 	
 
 	private int mMusicResource = R.raw.dispersion_relation;
@@ -96,7 +98,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
     
     private void checkAccounts(){
     	GameAccount gameAccount = dbAdapter.getDefaultAccount();
-    	if(gameAccount == null){
+    	if(gameAccount.getEmail() == DEFAULT_EMAIL){
     		Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
     		Account[] accounts = AccountManager.get(this).getAccounts();
     		// If there is more than one account in the device, we need to ask
@@ -176,10 +178,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 		editor.putFloat(KEY_LONGITUDE, (float) location.getLongitude());
 		editor.putFloat(KEY_ACCURACY, location.getAccuracy());
 		editor.putString(KEY_PROVIDER, location.getProvider());
-		
-		//TODO: Debug only! remove this otherwise the user's nickname will be overwritten!
-		editor.putString(KEY_NICKNAME,null);
-
 		editor.commit();
 		Log.d(TAG,"Latitude: "+location.getLatitude());
 		Log.d(TAG,"Longitude: "+location.getLongitude());

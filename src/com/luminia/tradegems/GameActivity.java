@@ -163,7 +163,7 @@ public class GameActivity extends Activity implements OnClickListener {
 	}
 
 	public void endGame() {
-		Intent intent = new Intent(GameActivity.this, ScoreActivity.class);
+		Intent intent = new Intent(this, ScoreActivity.class);
 		intent.putExtra(MainActivity.KEY_SCORE,mScore.getText());
 		intent.putExtra(MainActivity.KEY_TURN,mTurns.getText());
 		startActivity(intent);

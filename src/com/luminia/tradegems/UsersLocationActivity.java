@@ -38,7 +38,7 @@ public class UsersLocationActivity extends MapActivity {
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 
-		new GetTopTen().execute(100);
+//		new GetTopTen().execute(100);
 	}
 
 	@Override
@@ -47,79 +47,79 @@ public class UsersLocationActivity extends MapActivity {
 		return false;
 	}
 
-	private class GetTopTen extends AsyncTask<Integer, Integer, JSONArray> {
-		private static final String TAG = "UsersLocationActivity";
+//	private class GetTopTen extends AsyncTask<Integer, Integer, JSONArray> {
+//		private static final String TAG = "UsersLocationActivity";
+//
+//		@Override
+//		protected JSONArray doInBackground(Integer... counts) {
+//			try {
+//				StringBuilder fullUrl = new StringBuilder(
+//						MainActivity.SERVICE_URL);
+//
+//				fullUrl.append("query_high_scores?count=");
+//				fullUrl.append(counts[0]);
+//
+//				HttpGet get = new HttpGet(fullUrl.toString());
+//				HttpResponse response = client.execute(get);
+//
+//				int statusCode = response.getStatusLine().getStatusCode();
+//
+//				if (statusCode == 200) {
+//					HttpEntity entity = response.getEntity();
+//					String json = EntityUtils.toString(entity);
+//					return new JSONArray(json);
+//				} else if(statusCode == 500){
+//					String reason = response.getStatusLine().getReasonPhrase();
+//					Log.e(TAG,"Server Error 500");
+//					Log.e(TAG,"Reason: "+reason);
+//				}
+//				return null;
+//			} catch (Exception e) {
+//				Log.w("TopTenActivity", e);
+//				throw new RuntimeException(e);
+//			}
+//		}
+//
+//		protected void onPostExecute(final JSONArray result) {
+//			if(result == null) return;
+//			runOnUiThread(new Runnable() {
+//				@Override
+//				public void run() {
+//					try {
+//						displayResults(result);
+//					} catch (JSONException e) {
+//						Log.w("TopTenActivity", e);
+//					}
+//				}
+//			});
+//		}
+//	}
 
-		@Override
-		protected JSONArray doInBackground(Integer... counts) {
-			try {
-				StringBuilder fullUrl = new StringBuilder(
-						MainActivity.SERVICE_URL);
-
-				fullUrl.append("query_high_scores?count=");
-				fullUrl.append(counts[0]);
-
-				HttpGet get = new HttpGet(fullUrl.toString());
-				HttpResponse response = client.execute(get);
-
-				int statusCode = response.getStatusLine().getStatusCode();
-
-				if (statusCode == 200) {
-					HttpEntity entity = response.getEntity();
-					String json = EntityUtils.toString(entity);
-					return new JSONArray(json);
-				} else if(statusCode == 500){
-					String reason = response.getStatusLine().getReasonPhrase();
-					Log.e(TAG,"Server Error 500");
-					Log.e(TAG,"Reason: "+reason);
-				}
-				return null;
-			} catch (Exception e) {
-				Log.w("TopTenActivity", e);
-				throw new RuntimeException(e);
-			}
-		}
-
-		protected void onPostExecute(final JSONArray result) {
-			if(result == null) return;
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						displayResults(result);
-					} catch (JSONException e) {
-						Log.w("TopTenActivity", e);
-					}
-				}
-			});
-		}
-	}
-
-	protected void displayResults(JSONArray result) throws JSONException {
-		Drawable drawable = this.getResources().getDrawable(
-				R.drawable.green_gem);
-
-		HighscoreOverlay highscoreOverlay = new HighscoreOverlay(drawable);
-
-		for (int i = 0; i < result.length(); i++) {
-			TopScoreReport highscore = new TopScoreReport(result.getJSONObject(i));
-
-			String username = highscore.getAccountName();
-			String score = "" + highscore.getScore();
-			int latitude = (int) highscore.getLatitude().doubleValue() * 1000000;
-			int longitude = (int) highscore.getLongitude().doubleValue() * 1000000;
-
-			List<Overlay> mapOverlays = mapView.getOverlays();
-
-			GeoPoint point = new GeoPoint(latitude, longitude);
-
-			OverlayItem item = new OverlayItem(point, username, "Score: "
-					+ score);
-
-			highscoreOverlay.addOverlay(item);
-			mapOverlays.add(highscoreOverlay);
-		}
-	}
+//	protected void displayResults(JSONArray result) throws JSONException {
+//		Drawable drawable = this.getResources().getDrawable(
+//				R.drawable.green_gem);
+//
+//		HighscoreOverlay highscoreOverlay = new HighscoreOverlay(drawable);
+//
+//		for (int i = 0; i < result.length(); i++) {
+//			TopScoreReport highscore = new TopScoreReport(result.getJSONObject(i));
+//
+//			String username = highscore.getAccountName();
+//			String score = "" + highscore.getScore();
+//			int latitude = (int) highscore.getLatitude().doubleValue() * 1000000;
+//			int longitude = (int) highscore.getLongitude().doubleValue() * 1000000;
+//
+//			List<Overlay> mapOverlays = mapView.getOverlays();
+//
+//			GeoPoint point = new GeoPoint(latitude, longitude);
+//
+//			OverlayItem item = new OverlayItem(point, username, "Score: "
+//					+ score);
+//
+//			highscoreOverlay.addOverlay(item);
+//			mapOverlays.add(highscoreOverlay);
+//		}
+//	}
 
 	public class HighscoreOverlay extends ItemizedOverlay<OverlayItem> {
 

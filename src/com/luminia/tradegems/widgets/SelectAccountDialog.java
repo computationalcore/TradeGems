@@ -1,5 +1,6 @@
 package com.luminia.tradegems.widgets;
 
+import com.luminia.tradegems.MainActivity;
 import com.luminia.tradegems.R;
 import com.luminia.tradegems.database.GameAccount;
 import com.luminia.tradegems.database.MyDBAdapter;
@@ -21,6 +22,11 @@ public class SelectAccountDialog extends DialogFragment implements OnItemClickLi
 	private static final String TAG = "SelectAccountDialog";
 	private Account[] mAccountArray;
 	private String[] emailsArray;
+	private MyDBAdapter dbAdapter;
+
+	/**
+	 * Private constructor
+	 */
 	private SelectAccountDialog(){}
 	
 	/**
@@ -42,6 +48,10 @@ public class SelectAccountDialog extends DialogFragment implements OnItemClickLi
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		dbAdapter = MyDBAdapter.getInstance(getActivity());
+		GameAccount account = new GameAccount();
+		account.setEmail( MainActivity.DEFAULT_EMAIL);
+		dbAdapter.insertAccount(account,true);
 	}
 
 	@Override
@@ -68,9 +78,7 @@ public class SelectAccountDialog extends DialogFragment implements OnItemClickLi
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		MyDBAdapter dbAdapter = MyDBAdapter.getInstance(getActivity());
-		GameAccount account = new GameAccount();
-		account.setEmail( (String) ((TextView)view).getText());
+		GameAccount account = new GameAccount((String) ((TextView)view).getText());
 		dbAdapter.insertAccount(account,true);
 		this.dismiss();
 	}
