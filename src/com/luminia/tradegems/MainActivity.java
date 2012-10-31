@@ -63,7 +63,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 	private MyDBAdapter dbAdapter;
 	private Button playGameButton;
 	private Button aboutButton;
-	private Button topTenButton;			
+	private Button topTenButton;
+	private Button settingsButton;
 	
 	// Location related attributes
 	LocationManager mLocationManager;
@@ -83,9 +84,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 		playGameButton = (Button) findViewById(R.id.playGameButton);
 		aboutButton = (Button) findViewById(R.id.aboutButton);		
 		topTenButton = (Button) findViewById(R.id.viewTopTen);
+		settingsButton = (Button) findViewById(R.id.settingsButton);
 		playGameButton.setOnClickListener(this);
 		aboutButton.setOnClickListener(this);		
 		topTenButton.setOnClickListener(this);
+		settingsButton.setOnClickListener(this);
 
 		dbAdapter = MyDBAdapter.getInstance(this);
 		
@@ -132,6 +135,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 			startActivity(intent);
 		} else if (button == topTenButton) {
 			Intent intent = new Intent(this, TopTenActivity.class);
+			startActivity(intent);
+		} else if(button == settingsButton){
+			Intent intent = new Intent(this, GamePreferencesActivity.class);
 			startActivity(intent);
 		}
 		//unknown button.
