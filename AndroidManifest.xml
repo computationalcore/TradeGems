@@ -38,7 +38,9 @@
 		
 		<activity android:name=".HighScoreActivity" />
 		
-		<activity android:name=".AboutActivity" />		
+		<activity android:name=".AboutActivity" />
+		
+		<activity android:name=".GamePreferencesActivity"/>
 		
 		<activity android:name=".TopTenActivity"
 		    android:screenOrientation="portrait"

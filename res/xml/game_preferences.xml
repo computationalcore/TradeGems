@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="@string/key_preferences">
     <EditTextPreference
-        android:key="nickname_preference"
+        android:key="@string/key_nickname"
         android:title="@string/nickname_preference_title"
         android:summary="@string/nickname_preference_summary"
         android:dialogTitle="@string/nickname_preference_title">
     </EditTextPreference>
+    <ListPreference 
+        android:key="@string/key_account"
+        android:title="@string/accounts_preference_title"
+        android:summary="@string/accounts_preference_summary"/>
 </PreferenceScreen>

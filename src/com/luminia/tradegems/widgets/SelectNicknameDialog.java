@@ -5,6 +5,7 @@ import com.luminia.tradegems.R;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -36,7 +37,9 @@ public class SelectNicknameDialog extends DialogFragment {
 					nickname = MainActivity.DEFAULT_NICKNAME;
 				}
 				Log.i(TAG,"Saving nickname: "+nickname);
-				editor.putString(MainActivity.KEY_NICKNAME, nickname);
+				Resources resources = getResources();
+				String nicknameKey = resources.getString(R.string.key_nickname);
+				editor.putString(nicknameKey, nickname);
 				editor.commit();
 				dismiss();
 

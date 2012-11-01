@@ -23,6 +23,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -42,8 +43,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 	private static final String TAG = "MainActivity";
 	
 	// Shared preferences Keys
-	public static final String KEY_PREFERENCES = "preferences";
-	public static final String KEY_NICKNAME = "nickname";
+	public static final String KEY_PREFERENCES = "game_preferences";
+//	public static final String KEY_NICKNAME = "nickname_preference"; /* Alias of the defined in game_preferences.xml */
 	public static final String KEY_EMAIL = "email";
 	public static final String KEY_SCORE = "score";
 	public static final String KEY_TURN = "turns";
@@ -56,6 +57,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 	public static final String KEY_ACCURACY = "accuracy";
 	public static final String KEY_PARENT = "parent_key";
 	public static final String DEFAULT_NICKNAME = "user";
+//	public static final String KEY_ACCOUNT = "account_key"; /* Alias */
 	public static final String DEFAULT_EMAIL = "anon@luminiasoft.com";
 	
 
@@ -179,7 +181,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
 	public void onLocationChanged(Location location) {
 		Log.d(TAG,"onLocationChanged");
 		mCurrentLocation = location;
-		SharedPreferences.Editor editor = getSharedPreferences(MainActivity.KEY_PREFERENCES,Context.MODE_PRIVATE).edit();
+		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
 		editor.putFloat(KEY_LATITUDE,(float) location.getLatitude());
 		editor.putFloat(KEY_LONGITUDE, (float) location.getLongitude());
 		editor.putFloat(KEY_ACCURACY, location.getAccuracy());

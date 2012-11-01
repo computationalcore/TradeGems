@@ -18,6 +18,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/**
+ * 
+ * @author nelson
+ *
+ */
 public class SelectAccountDialog extends DialogFragment implements OnItemClickListener {
 	private static final String TAG = "SelectAccountDialog";
 	private Account[] mAccountArray;

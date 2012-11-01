@@ -7,6 +7,12 @@
     <!-- Preference Strings -->
     <string name="nickname_preference_title">Player\'s name</string>
     <string name="nickname_preference_summary">Please choose a nickname</string>
+    <string name="default_nickname">Anonymous</string>
+    
+    <!-- Preference keys -->
+    <string name="key_preferences">game_preferences</string>
+    <string name="key_nickname">nickname_preference</string>
+    <string name="key_account">account_key</string>
     
 	<!-- Main menu strings -->
 	<string name="play_game">Play Trade Gems</string>
