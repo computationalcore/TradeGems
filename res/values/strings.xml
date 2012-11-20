@@ -13,6 +13,8 @@
     <string name="key_preferences">game_preferences</string>
     <string name="key_nickname">nickname_preference</string>
     <string name="key_account">account_key</string>
+    <string name="accounts_preference_title">Accounts</string>
+    <string name="accounts_preference_summary">You can change your main account address here</string>
     
 	<!-- Main menu strings -->
 	<string name="play_game">Play Trade Gems</string>

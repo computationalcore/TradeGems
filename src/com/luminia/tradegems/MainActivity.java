@@ -119,7 +119,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, L
     			bundle.putParcelableArray("accounts",accounts);
     			showAccountSelectionDialog(bundle);
     		}else if(accounts.length == 1){
-    			
+    			Log.i(TAG,"Only one account found");
     		}else{
     			// TODO: No account detected, what to do?
     			Log.w(TAG,"No account detected in device");

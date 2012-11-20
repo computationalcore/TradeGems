@@ -78,7 +78,7 @@ public class PlayerListAdapter extends BaseAdapter {
 		if(score != null)
 			scoreTv.setText(score.toString());
 		if(pos != null)
-			pos.setText(""+position+" - ");
+			pos.setText(""+(position+1)+" - ");
 		if(country != null){
 			String flagResourceName = mCountry2Code.get(country);
 			if(flagResourceName != null){
