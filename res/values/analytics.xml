@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="https://schemas.android.com/tools" 
+    tools:ignore="TypographyDashes">
+    <string name="ga_trackingId">UA-36476393-1</string>
+    
+    <string name="ga_appName">Trade Gems</string>
+    
+    <!--Enable Activity tracking-->
+  	<bool name="ga_autoActivityTracking">true</bool>
+  	
+  	<!--Enable automatic exception tracking-->
+  	<bool name="ga_reportUncaughtExceptions">true</bool>
+</resources>

@@ -46,10 +46,16 @@
 		    android:screenOrientation="portrait"
 		    android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
 		
-		<activity android:name=".UsersOfGameActivity"  android:label="Top Scores For User of Game" />
+		<activity android:name=".UsersOfGameActivity"  
+		    android:label="Top Scores For User of Game" />
 		
-		<activity android:name=".UsersLocationActivity"  android:label="Location of Best Players" />
+		<activity android:name=".UsersLocationActivity"  
+		    android:label="Location of Best Players" />
 		
+		<activity android:name="com.google.ads.AdActivity" 
+        	android:theme="@android:style/Theme.NoTitleBar.Fullscreen" 
+        	android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize">
+        </activity>
     </application>
     
 </manifest>

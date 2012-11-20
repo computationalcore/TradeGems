@@ -22,12 +22,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 //import android.widget.ProgressBar;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 
+import com.google.ads.Ad;
+import com.google.ads.AdListener;
+import com.google.ads.AdRequest;
+import com.google.ads.AdRequest.ErrorCode;
+import com.google.ads.AdSize;
+import com.google.ads.AdView;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.luminia.tradegems.PauseDialog;
 import com.luminia.tradegems.GameView;
 
@@ -37,10 +46,10 @@ import com.luminia.tradegems.GameView;
  * @version 	1.00 18 Fev 2012
  * @author 	Vinicius Busquet - computationalcore@gmail.com
  */
-public class GameActivity extends Activity implements OnClickListener {
+public class GameActivity extends Activity implements OnClickListener, AdListener {
 
 	private final static int PAUSE_DIALOG = 1;
-
+	private AdView adView;	
 	private static final String TAG = "GameActivity";
 	
 	//creates a ViewSwitcher object, to switch between Views
@@ -79,6 +88,7 @@ public class GameActivity extends Activity implements OnClickListener {
 		GameActivity.this.mPauseButton.setOnClickListener(GameActivity.this);
 		GameActivity.this.mGame.reset(GameActivity.this);
 		GameActivity.this.mGame.startGame();
+		setupAd();
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -170,7 +180,19 @@ public class GameActivity extends Activity implements OnClickListener {
 		this.finish();
 	}
 	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this);
+	}
+	
     @Override
+	protected void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
+	}
+
+	@Override
 	protected void onDestroy() {
     	Log.i(TAG,"onDestroy");
 		super.onDestroy();
@@ -201,4 +223,63 @@ public class GameActivity extends Activity implements OnClickListener {
        	    mGame.resume();	
    	    }
     }
+    
+    private void setupAd(){
+    	FrameLayout adContainer = (FrameLayout) findViewById(R.id.AdContainer);
+    	if(adContainer != null){
+    		double random = Math.random();
+    		if(random > 0.66){ // Nelson
+    			adView = new AdView(this,AdSize.BANNER,"a14e49e81425161"); 
+    		}else if(random > 0.33){ // Leticia
+    			adView = new AdView(this,AdSize.BANNER,"a14fadb95426072");    			
+    		}else{ // Vinicius
+    			adView = new AdView(this,AdSize.BANNER,"a14fadb121c9a8d");    			
+    		}
+    		if(adView != null){
+    			adContainer.addView(adView);
+        		adView.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
+        		if(adView instanceof AdView) ((AdView)adView).setAdListener(this);
+        		setupAndLoadAd();
+    		}
+    	}
+    }
+    
+    /**
+     * Method that creates an AdRequest object and loads a new ad
+     */
+    private void setupAndLoadAd(){
+		// Creating an ad request and sending it
+		AdRequest request = new AdRequest();
+		request.addKeyword("game");
+		request.addKeyword("bored");
+		adView.loadAd(request);
+		Log.d(TAG,"isRefreshing: "+((AdView)adView).isRefreshing());    	    		
+    }
+
+	@Override
+	public void onDismissScreen(Ad ad) {
+		EasyTracker.getTracker().trackEvent(Analytics.Category.AD, Analytics.Actions.ADMOB_ACTION, Analytics.Labels.AD_DISMISSED,1l);		
+	}
+
+	@Override
+	public void onFailedToReceiveAd(Ad arg0, ErrorCode arg1) {
+		EasyTracker.getTracker().trackEvent(Analytics.Category.AD, Analytics.Actions.ADMOB_ACTION, Analytics.Labels.AD_FAILED,1l);
+	}
+
+	@Override
+	public void onLeaveApplication(Ad arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPresentScreen(Ad arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onReceiveAd(Ad ad) {
+		EasyTracker.getTracker().trackEvent(Analytics.Category.AD, Analytics.Actions.ADMOB_ACTION, Analytics.Labels.AD_RECEIVED,1l);
+	}
 }
